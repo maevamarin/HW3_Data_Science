@@ -9,7 +9,29 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Loading all the library
+
+```{r data}
+library(readr)
+library(tidyverse)
+library(lubridate)
+```
+
 ## Loading the data
 
+```{r data}
+library(readr)
 
+Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+ Traffic_stop_2<-read_delim("data/initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+ 
+Police_arrest_made <- read_delim("data/police-arrests-made.csv",";", escape_double = FALSE, trim_ws = TRUE)
+ 
+Employee_demographics<- read_delim("data/police-employee-demographics.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+
+```
 
