@@ -1,0 +1,15 @@
+---
+title: "Introduction"
+author: "Maeva Marin"
+date: "19/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading the data
+
+
+
