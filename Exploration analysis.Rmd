@@ -60,7 +60,7 @@ ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_
 
 ```
 
-## Police arrested made
+## Police arrested made.
 ```{r }
 
 #Analzye the number of arrestation over the year in relation to the race.
