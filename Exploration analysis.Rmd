@@ -63,7 +63,7 @@ ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_
 ## Police arrested made
 ```{r }
 
-#Analzye the number of arrestation over the year in relation to the race
+#Analzye the number of arrestation over the year in relation to the race.
 
 Police_arrest_made<- Police_arrest_made %>% mutate(month=month(`Date of Arrest`), year= year(`Date of Arrest`))
 
