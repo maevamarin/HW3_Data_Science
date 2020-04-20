@@ -1,0 +1,217 @@
+---
+title: "Exploration analysis"
+author: "Maeva Marin"
+date: "19/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(tidyverse)
+library(lubridate)
+library(forcats)
+
+Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+ Traffic_stop_2<-read_delim("data/initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+ 
+Police_arrest_made <- read_delim("data/police-arrests-made.csv",";", escape_double = FALSE, trim_ws = TRUE)
+ 
+Employee_demographics<- read_delim("data/police-employee-demographics.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+```{r cars}
+
+
+##Traffic stop
+##Analyze the highest porpose of the arrestation ( between female and male)
+
+Traffic_stop_2<-Traffic_stop_2 %>% filter(Purpose != "Total" & Purpose != "FemaleTotal" & Purpose != "MaleTotal")
+
+Plot1<-ggplot(Traffic_stop_2, aes(x=Purpose, y= Traffic_stop_2$`Total By Ethnicity`, fill= Gender)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Year) +
+  labs(title = "The main purpose is the speed limit violation" ,subtitle = "for the year 2014-2015", x= "Purpose", y= "Total stop by race")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+Plot1
+
+##Analyze the highest purpose of the arrestation (between black and white people)
+
+ Traffic_stop_2 <- Traffic_stop_2 %>% mutate(Pro_Black_white = Black/White)
+ Traffic_stop_2$Pro_Black_white[is.nan(Traffic_stop_2$Pro_Black_white)]<-0
+ 
+ 
+Traffic_stop_2 %>% group_by(Purpose, Gender) %>%
+ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_2$Pro_Black_white)) +
+  geom_bar(stat = "identity") +
+  facet_grid(Gender~Year) +
+  labs(title = "More black arrested for the investigation purpose" ,subtitle = "for the year 2014-2015", x= "Purpose", y= "Ratio Black/White")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+   scale_y_continuous(labels = scales::percent) +
+  theme( strip.background  = element_blank(),
+                      panel.grid.major = element_line(colour = "black"),
+                      panel.border = element_blank(),
+                      axis.ticks = element_blank(),
+                      panel.grid.minor.x=element_blank(),
+                      panel.grid.major.x=element_blank() )
+
+```
+
+## Police arrested made
+```{r }
+
+#Analzye the number of arrestation over the year in relation to the race
+
+Police_arrest_made<- Police_arrest_made %>% mutate(month=month(`Date of Arrest`), year= year(`Date of Arrest`))
+
+Police_arrest_made <- Police_arrest_made%>% mutate(`Arrestee's Race` = fct_collapse(`Arrestee's Race`,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+
+
+graph1 = Police_arrest_made %>% count(`Arrestee's Race`, month, year) %>%
+  filter(!is.na(`Arrestee's Race`))
+
+ggplot(graph1,aes(x=month,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's Race`)) +
+  geom_line() +
+  facet_grid(~year)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm")) +
+  scale_x_continuous( breaks = seq(1,12,by=5)) +
+  labs(title = "Number of arrestation", subtitle = "year 2010 to 2019", x= "Date",y="Number of arrestation")
+
+```
+
+```{r }
+## More focus on the ration of the black and white arrested 
+##Same plot as before but only with the white and black people and plot the difference
+
+graph2= Police_arrest_made %>% filter(`Arrestee's Race`=="White" | `Arrestee's Race` =="Black") %>% count(`Arrestee's Race`, month, year)
+
+ggplot(graph2, aes(x=month,y=n)) +
+  geom_line(size=1, aes(color=`Arrestee's Race`)) +
+  geom_point(aes(color=`Arrestee's Race`)) +
+  facet_grid(~year) +
+  stat_summary(fun.y = diff, geom = "bar") +
+  theme(legend.position ="bottom")  +
+  scale_x_continuous( breaks = seq(1,12,by=5))
+
+##Same plot as before, but only considering the year and not the month
+
+graph3= Police_arrest_made %>% filter(`Arrestee's Race`=="White" | `Arrestee's Race` =="Black") %>% count(`Arrestee's Race`, year,)
+
+ggplot(graph3, aes(x=year,y=n)) +
+  geom_line(size=1, aes(color=`Arrestee's Race`)) +
+  geom_point(aes(color=`Arrestee's Race`)) +
+  stat_summary(fun.y = diff, geom = "bar") +
+  theme(legend.position ="bottom")  +
+  scale_x_continuous( breaks = seq(1,12,by=5))
+
+##Number of arrestation taking into account the race and the gender
+
+graph4 = Police_arrest_made %>% count(`Arrestee's Race`, `Arrestee's Gender`, year) %>%
+  filter(!is.na(`Arrestee's Race`))
+
+ggplot(graph4,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's Race`)) +
+  geom_line() +
+  facet_grid(~`Arrestee's Gender`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "Number of arrestation", subtitle = "year 2010 to 2019", x= "Date",y="Number of arrestation") +
+  scale_x_continuous( breaks = seq(2010,2019,by=1))
+
+
+
+
+
+```
+
+```{r }
+## Arrestation Age by ethnicity
+
+ggplot(Police_arrest_made, aes(x=Police_arrest_made$`Arrestee's Race`, y=Police_arrest_made$`Arrestee's Age` )) +
+  geom_boxplot() +
+  labs(x= "Arrestee's Race", y= "Age",
+       title = "Age corresponding to each Ethnicity",
+       subtitle = "Arrested pepople between 2010 and 2019")
+```
+
+```{r }
+##Analyze the type of arrestation taking into account the race
+
+graph5 = Police_arrest_made %>% count(`Arrestee's Race`, `Type of Arrest`, year) %>%
+  filter(!is.na(`Type of Arrest`))
+
+ggplot(graph5,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's Race`)) +
+  geom_line() +
+  facet_grid(~`Type of Arrest`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "Different pattern for each type of arrestation", subtitle = "year 2010 to 2019", x= "Date",y="Number of arrestation") +
+  scale_x_continuous( breaks = seq(2010,2019,by=1))
+
+```
+
+
+## Incident reports
+
+```{r }
+
+Incident_reports<- Incident_reports%>% mutate(`Victim Race` = fct_collapse(`Victim Race`,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+Incident_reports<- Incident_reports %>% mutate(month=month(`Date of Occurrence`), year= year(`Date of Occurrence`))
+
+graph6 = Incident_reports %>%filter(year>=2010) %>% count(`Victim Race`, `Victim Gender` , year) %>% filter(`Victim Gender`=="F" | `Victim Gender`=="M")
+
+ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) +
+  geom_line() +
+  facet_grid(~`Victim Gender`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "White people are the Major victim ", subtitle = "year 2010 to 2019", x= "Date",y="Number of Victim") 
+```
+
+Employee demographics in the current of october 2016
+```{r }
+
+Employee_demographics<- Employee_demographics%>% mutate(Race = fct_collapse(Race,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+graph7 = Employee_demographics %>% count(Gender,Race) %>% filter(Race != "M")
+  
+
+ggplot(graph7,aes(x=Race,y=n)) +
+  geom_bar(stat = "identity") +
+  facet_grid(~Gender)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "Majority of White employee", subtitle = "Current of the year 2016", x= "Race",y="Number of employee") 
+
+```
