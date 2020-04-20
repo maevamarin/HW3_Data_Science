@@ -15,16 +15,109 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+```{r Employee Demographics}
+library(kableExtra)
+library(tidyverse)
+# Employee Demographics
+Employee_demographics %>%
+  group_by(`Job Class Description`) %>%
+  count(`Job Class Description`) %>% 
+  arrange(desc(n)) %>%
+  kable(caption= "Profession of the police officers by frequency", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+
+library(dplyr)
+meanM<- Employee_demographics%>%
+  group_by(Gender) %>%
+  summarize(MEANSERVICE = mean(`Service Years`))
+Employee_demographics %>%
+  group_by(Gender) %>%
+  ggplot(aes(Gender,`Service Years`, color= Gender)) +
+  geom_boxplot()
+
+#Comupting the mean for the next plot
+meanM<- Employee_demographics%>%
+  group_by(Gender) %>%
+  summarize(MEANSERVICE = mean(`Service Years`))
+
+Employee_demographics %>%
+  ggplot(aes(`Job Class Description`,`Service Years`)) + 
+  geom_point(aes(color = Gender)) +
+  geom_hline(yintercept = 14.24603, color = "darkblue") +
+  geom_hline(yintercept = 12.02083, color = "pink") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size =6)) 
+   labs(title = "Service length per position and gender",subtitle = "The average service is slighty longer for men,n/women have greater variance among year of service",caption = "Employee_demographics.csv", x= "Positions", y="Year of service")
+
+#Computing the mean service length per race
+meanR<- Employee_demographics%>%
+  group_by(Race) %>%
+  summarize(MEANSERVICE = mean(`Service Years`))
+meanR
+Employee_demographics %>%
+  ggplot(aes(`Job Class Description`,`Service Years`)) + 
+  geom_point(aes(color = Race)) +
+  geom_hline(yintercept = 13.309502, color = "black") +
+  geom_hline(yintercept = 13.95312, color = "bisque2") +
+  geom_hline(yintercept = 7, color = "red") +
+  geom_hline(yintercept = 6, color = "orange") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size =6)) +
+   labs(title = "Service length per position and gender",subtitle = "The average service is slighty longer for men,n/women have greater variance among year of service",caption = "Employee_demographics.csv", x= "Positions", y="Year of service")
+
 ```
 
+```{r Incident reports}
+Incident_reports %>%
+  ggplot(aes( x = Incident_reports$`Victim Gender`, y=  Incident_reports$`Victim Age`)) +
+  geom_boxplot()
+
+Incident_reports%>%
+  group_by(`Victim Race`)  %>%
+  mutate(DELAYReported = `Date of Report`- `Date of Occurrence`, DELAYArrested = `Date Found`- `Date of Occurrence`) %>%
+  filter( DELAYArrested < 20000 & DELAYArrested > 100) %>%
+  ggplot(aes( `Victim Race`, DELAYArrested )) +
+  geom_boxplot()
+# By filtering de la sorte, we can see that there are more outliers for white people but and there is a greater variance in delay time for the arrestation whenthe case concern black people.
+
+ Incident_reports %>%
+   filter(`Date of Occurrence` > "2019-01-01") %>%
+   group_by(`Date of Occurrence`) %>%
+   count(`Date of Occurrence`) %>%
+   ggplot(aes(`Date of Occurrence`, n)) +
+   geom_histogram(stat= "identity")
+     
+   )
+```
 ## Including Plots
 
-You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
-plot(pressure)
+
+Police_arrest_made %>%
+  filter(`Weapon Present`== "UNARMED") %>%
+  ggplot(aes(`Arrestee's Race`, `Arrestee's Age`)) +
+  geom_boxplot(aes(color = `Arrestee's Race` ))
+
+summary(Police_arrest_made)
+meanAgeArrestee <- Police_arrest_made %>%
+  group_by(`Arrestee's Race`)%>%
+  summarize(MEDIANAGR = median(`Arrestee's Age`))
+meanAgeArrestee
+
+Police_arrest_made %>%
+  group_by(`Arrestee's Race`) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+    kable(caption= "Number of Arrestees per race", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+  
+ Police_arrest_made %>%
+  ggplot(aes(`Arrestee's Race`, `Arrestee's Age` )) + 
+  geom_point(aes(color =  Police_arrest_made$`Arrestee's Gender`)) +
+  geom_hline(yintercept = 33, color = "black") +
+  geom_hline(yintercept = 28, color = "bisque2") +
+  geom_hline(yintercept = 27, color = "orange") +
+  geom_hline(yintercept = 25, color = "yellow") +
+   labs(title = "Age of Arrestee per race",subtitle = "",caption = "Police_demographics.csv", x= "Race", y="Age of arrestee")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
