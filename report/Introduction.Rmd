@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(tidyverse)
 library(lubridate)
+library(kableExtra)
 ```
 
 ## Loading the data
@@ -35,3 +36,42 @@ Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", 
 
 ```
 
+```{r data}
+  Police_arrest_made <- Police_arrest_made%>% 
+   mutate( `Drugs or Alcohol Present` = fct_collapse(`Drugs or Alcohol Present`,
+    "Yes"="Y",
+    "No"="N",
+    "Unknown"="U"
+    )) %>%
+   mutate(`Arrestee's Race` = fct_collapse(`Arrestee's Race`,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+  
+Incident_reports<- Incident_reports%>% 
+  mutate(`Victim Race` = fct_collapse(`Victim Race`,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+Employee_demographics<- Employee_demographics %>%
+  mutate(Race = fct_collapse(Race,
+    "Asian"="A",
+    "Black"="B",
+    "Hispanic"="H",
+    "Native American"="I",
+    "Other" ="O",
+    "Unknown"="U",
+    "White"="W"))
+
+
+```

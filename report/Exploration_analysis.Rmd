@@ -5,7 +5,7 @@ date: "19/04/2020"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(tidyverse)
@@ -14,17 +14,18 @@ library(forcats)
 
 Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
 
- Traffic_stop_2<-read_delim("data/initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+Traffic_stop_2<-read_delim("data/initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity.csv", ";", escape_double = FALSE, trim_ws = TRUE)
  
 Police_arrest_made <- read_delim("data/police-arrests-made.csv",";", escape_double = FALSE, trim_ws = TRUE)
  
 Employee_demographics<- read_delim("data/police-employee-demographics.csv",";", escape_double = FALSE, trim_ws = TRUE)
 
 Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", escape_double = FALSE, trim_ws = TRUE)
+
+
 ```
 
-```{r cars}
-
+```{r }
 
 ##Traffic stop
 ##Analyze the highest porpose of the arrestation ( between female and male)
@@ -67,14 +68,6 @@ ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_
 
 Police_arrest_made<- Police_arrest_made %>% mutate(month=month(`Date of Arrest`), year= year(`Date of Arrest`))
 
-Police_arrest_made <- Police_arrest_made%>% mutate(`Arrestee's Race` = fct_collapse(`Arrestee's Race`,
-    "Asian"="A",
-    "Black"="B",
-    "Hispanic"="H",
-    "Native American"="I",
-    "Other" ="O",
-    "Unknown"="U",
-    "White"="W"))
 
 
 
@@ -169,14 +162,6 @@ ggplot(graph5,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's 
 
 ```{r }
 
-Incident_reports<- Incident_reports%>% mutate(`Victim Race` = fct_collapse(`Victim Race`,
-    "Asian"="A",
-    "Black"="B",
-    "Hispanic"="H",
-    "Native American"="I",
-    "Other" ="O",
-    "Unknown"="U",
-    "White"="W"))
 
 Incident_reports<- Incident_reports %>% mutate(month=month(`Date of Occurrence`), year= year(`Date of Occurrence`))
 
@@ -194,14 +179,6 @@ ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) 
 Employee demographics in the current of october 2016
 ```{r }
 
-Employee_demographics<- Employee_demographics%>% mutate(Race = fct_collapse(Race,
-    "Asian"="A",
-    "Black"="B",
-    "Hispanic"="H",
-    "Native American"="I",
-    "Other" ="O",
-    "Unknown"="U",
-    "White"="W"))
 
 graph7 = Employee_demographics %>% count(Gender,Race) %>% filter(Race != "M")
   

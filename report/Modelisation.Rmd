@@ -1,0 +1,145 @@
+---
+title: "Modelisation"
+author: "Maeva Marin"
+date: "02/05/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+  
+  
+```{r}
+##Modelisation about the arrestation
+
+Graph= Police_arrest_made %>%
+  group_by(`Arrestee's Age`,`Arrestee's Race`, `Arrestee's Gender`, `Drugs or Alcohol Present` ) %>%
+  summarize(arrestation=n())
+```
+
+```{r}
+
+Graph_mod = Graph  %>% filter(`Arrestee's Race`=="Black" | `Arrestee's Race` == "White" )
+
+ ggplot(Graph_mod,aes(y= arrestation,x= `Arrestee's Age` ,color=`Arrestee's Race`)) + 
+    geom_point(size = 2) + 
+    geom_smooth(method = "glm", , se = F, 
+        method.args = list(family = "poisson")) +
+  facet_grid(~ `Arrestee's Race`)
+
+```
+
+```{r}
+model = glm(arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present` , data= Graph)
+
+broom::tidy(model) %>% 
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+broom::augment(model) %>% select(-.rownames,-.hat,-.sigma,-.cooksd) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  ) 
+
+
+
+
+```
+
+```{r} 
+
+model2 = glm(arrestation ~ `Arrestee's Race` +`Arrestee's Age` , data= Graph)
+
+broom::tidy(model2) %>% 
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+broom::augment(model2) %>% select(-.rownames,-.hat,-.sigma,-.cooksd) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  ) 
+
+```
+
+```{r}
+augment_model2<- broom::augment(model2)
+
+augment_model2 %>% 
+  ggplot(aes(x=arrestation,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Arrestation", 
+    y = "Residuals",
+    title = "The variance of the model's residuals increases with Black and White race",
+    subtitle = "Residuals's variation ")
+
+
+
+```
+
+```{r}
+augment_model2 %>% ggplot() +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= arrestation, col="Observed")) +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= .fitted, col="Fitted" )) +
+  labs(title = "Well goodness-of fit",
+       subtitle = "Between the observed and fitted value",
+       x= "Race",
+       y= "Arrestation",
+       col= "Model")
+
+```
+
+```{r}
+model3 = glm(arrestation ~ `Arrestee's Race` , data= Graph)
+
+augment_model3<- broom::augment(model3)
+
+broom::augment(model3) %>% select(-.rownames,-.hat,-.sigma,-.cooksd) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  ) 
+
+augment_model3 %>% 
+  ggplot(aes(x=arrestation,y= augment_model3$.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Race", 
+    y = "Residuals",
+    title = "The variance of the model's residuals ",
+    subtitle = "Residuals's variation ")
+
+augment_model3 %>% 
+  ggplot() +
+  geom_boxplot(aes(x=arrestation, y= .resid,))+
+  labs(title = "Well goodness-of fit",
+       subtitle = "Between the observed and fitted value",
+       x= "Arrestation",
+       y= "Residuals")
+
+
+```
+
+
+
+
+  
