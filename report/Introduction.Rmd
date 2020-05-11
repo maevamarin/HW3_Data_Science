@@ -1,9 +1,5 @@
----
-title: "Introduction"
-author: "Maeva Marin"
-date: "19/04/2020"
-output: html_document
----
+#Introduction
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,7 +7,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Loading all the library
 
-```{r data}
+```{r }
 library(readr)
 library(tidyverse)
 library(lubridate)
@@ -20,7 +16,7 @@ library(kableExtra)
 
 ## Loading the data
 
-```{r data}
+```{r }
 library(readr)
 
 Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
@@ -36,7 +32,9 @@ Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", 
 
 ```
 
-```{r data}
+##Cleaning the data
+
+```{r }
   Police_arrest_made <- Police_arrest_made%>% 
    mutate( `Drugs or Alcohol Present` = fct_collapse(`Drugs or Alcohol Present`,
     "Yes"="Y",
@@ -50,7 +48,10 @@ Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", 
     "Native American"="I",
     "Other" ="O",
     "Unknown"="U",
-    "White"="W"))
+    "White"="W")) %>%
+  mutate(`Arrestee's Gender`=fct_collapse(`Arrestee's Gender`,
+        "Female"="F",
+        "Male"="M"))
 
   
 Incident_reports<- Incident_reports%>% 

@@ -1,11 +1,7 @@
----
-title: "Modelisation"
-author: "Maeva Marin"
-date: "02/05/2020"
-output: html_document
----
+#Modelisation
 
-```{r setup, include=FALSE}
+
+```{r , include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
   
@@ -20,7 +16,7 @@ Graph= Police_arrest_made %>%
 
 ```{r}
 
-Graph_mod = Graph  %>% filter(`Arrestee's Race`=="Black" | `Arrestee's Race` == "White" )
+Graph_mod = Graph %>% filter(`Arrestee's Race`=="Black" | `Arrestee's Race` == "White" )
 
  ggplot(Graph_mod,aes(y= arrestation,x= `Arrestee's Age` ,color=`Arrestee's Race`)) + 
     geom_point(size = 2) + 
@@ -48,6 +44,18 @@ broom::augment(model) %>% select(-.rownames,-.hat,-.sigma,-.cooksd) %>%
   kable_styling(
   bootstrap_options = "striped"
   ) 
+
+augment_model<- broom::augment(model)
+
+augment_model %>% 
+  ggplot(aes(x=arrestation,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Arrestation", 
+    y = "Residuals",
+    title = "Bad prediction when the number of arrests increases",
+    subtitle = "Residuals's variation ")
 
 
 
@@ -90,7 +98,24 @@ augment_model2 %>%
     subtitle = "Residuals's variation ")
 
 
+```
 
+```{r}
+ggplot(Graph_mod )+
+  geom_histogram(aes(arrestation))
+```
+
+```{r}
+#Filtering the number of arrestation <100 becauce of the extrme value,as we can observe above
+augment_model2 %>% filter(arrestation<100) %>%
+  ggplot(aes(x=arrestation,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Arrestation", 
+    y = "Residuals",
+    title = "The variance of the model's residuals increases with Black and White race",
+    subtitle = "Residuals's variation ")
 ```
 
 ```{r}
@@ -103,7 +128,18 @@ augment_model2 %>% ggplot() +
        y= "Arrestation",
        col= "Model")
 
+augment_model2 %>% filter(arrestation<100) %>%
+  ggplot() +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= arrestation, col="Observed")) +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= .fitted, col="Fitted" )) +
+  labs(title = "Well goodness-of fit",
+       subtitle = "Between the observed and fitted value",
+       x= "Race",
+       y= "Arrestation",
+       col= "Model")
+
 ```
+
 
 ```{r}
 model3 = glm(arrestation ~ `Arrestee's Race` , data= Graph)
@@ -135,7 +171,6 @@ augment_model3 %>%
        subtitle = "Between the observed and fitted value",
        x= "Arrestation",
        y= "Residuals")
-
 
 ```
 

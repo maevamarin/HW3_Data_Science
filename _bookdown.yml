@@ -1,12 +1,10 @@
-book_filename: "dsfba_hw3_report"
-
-before_chapter_script: "scripts/setup.R"
+book_filename: "_main"
 
 # new_session: yes
 
 rmd_files: [
   "index.Rmd",
-  "report/introduction.Rmd",
+  "report/Introduction.Rmd",
   "report/Exploration_analysis.Rmd",
   "report/Modelisation.Rmd",
   "report/references.Rmd"
