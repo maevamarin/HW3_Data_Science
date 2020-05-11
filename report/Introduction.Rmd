@@ -34,7 +34,7 @@ Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", 
 
 ##Cleaning the data
 
-```{r }
+```{r  }
   Police_arrest_made <- Police_arrest_made%>% 
    mutate( `Drugs or Alcohol Present` = fct_collapse(`Drugs or Alcohol Present`,
     "Yes"="Y",
