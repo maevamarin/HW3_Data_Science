@@ -1,6 +1,6 @@
-#Exploration analysis
+# Exploration analysis
 
-##Traffic data
+## Traffic data
 
 
 ```{r }
@@ -254,7 +254,7 @@ Employee_demographics %>%
  
 ```
 
-##Victim and Arrest distribution
+## Victim and Arrest distribution
 
 ```{r}
 Police_arrest_made$`Date of Arrest`
@@ -271,7 +271,7 @@ ggplot() +
   geom_line(aes(x=year.x, y=n,col=`Arrestee's Race`), data = graph9)
 
 
-ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) 
+ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) +
   geom_line() +
   facet_grid(~`Victim Gender`)+
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
