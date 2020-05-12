@@ -172,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year) <span class="op">+</span></a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;The main purpose is the speed limit violation&quot;</span> ,<span class="dt">subtitle =</span> <span class="st">&quot;for the year 2014-2015&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Purpose&quot;</span>, <span class="dt">y=</span> <span class="st">&quot;Total stop by race&quot;</span>)<span class="op">+</span></a>
 <a class="sourceLine" id="cb15-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co">##Analyze the highest purpose of the arrestation (between black and white people)</span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"> Traffic_stop_<span class="dv">2</span> &lt;-<span class="st"> </span>Traffic_stop_<span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Pro_Black_white =</span> Black<span class="op">/</span>White)</a>
@@ -192,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb16-17" data-line-number="17">                      <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>(),</a>
 <a class="sourceLine" id="cb16-18" data-line-number="18">                      <span class="dt">panel.grid.minor.x=</span><span class="kw">element_blank</span>(),</a>
 <a class="sourceLine" id="cb16-19" data-line-number="19">                      <span class="dt">panel.grid.major.x=</span><span class="kw">element_blank</span>() )</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="police-arrested-made." class="section level2">
 <h2><span class="header-section-number">3.2</span> Police arrested made.</h2>
@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_x_continuous</span>( <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">12</span>,<span class="dt">by=</span><span class="dv">5</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-8" data-line-number="8"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of arrestation&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;year 2010 to 2019&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Date&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of arrestation&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co">## More focus on the ration of the black and white arrested </span></a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co">##Same plot as before but only with the white and black people and plot the difference</span></a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"></a>
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb20-11" data-line-number="11"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span><span class="st">&quot;bottom&quot;</span>)  <span class="op">+</span></a>
 <a class="sourceLine" id="cb20-12" data-line-number="12"><span class="st">  </span><span class="kw">scale_x_continuous</span>( <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">12</span>,<span class="dt">by=</span><span class="dv">5</span>))</a></code></pre></div>
 <pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co">##Same plot as before, but only considering the year and not the month</span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb22-3" data-line-number="3">graph3=<span class="st"> </span>Police_arrest_made <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span><span class="op">==</span><span class="st">&quot;White&quot;</span> <span class="op">|</span><span class="st"> `</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span> <span class="op">==</span><span class="st">&quot;Black&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span>, year,)</a>
@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb22-9" data-line-number="9"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span><span class="st">&quot;bottom&quot;</span>)  <span class="op">+</span></a>
 <a class="sourceLine" id="cb22-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>( <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">12</span>,<span class="dt">by=</span><span class="dv">5</span>))</a></code></pre></div>
 <pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co">##Number of arrestation taking into account the race and the gender</span></a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb24-3" data-line-number="3">graph4 =<span class="st"> </span>Police_arrest_made <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Arrestee&#39;s Gender</span><span class="st">`</span>, year) <span class="op">%&gt;%</span></a>
@@ -256,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb27-6" data-line-number="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>))  <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of arrestation&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;year 2010 to 2019&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Date&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of arrestation&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_x_continuous</span>( <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">2010</span>,<span class="dv">2019</span>,<span class="dt">by=</span><span class="dv">1</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">summary</span>(Police_arrest_made)</a></code></pre></div>
 <pre><code>##   Incident Id    Date of Arrest       Time of Arrest    Primary Charge       Address         
 ##  Min.   :24065   Min.   :2010-01-01   Length:16040      Length:16040       Length:16040      
@@ -411,7 +411,7 @@ Unknown
 <a class="sourceLine" id="cb36-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">25</span>, <span class="dt">color =</span> <span class="st">&quot;yellow&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb36-8" data-line-number="8"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Age of Arrestee per race&quot;</span>,<span class="dt">subtitle =</span> <span class="st">&quot;&quot;</span>,<span class="dt">caption =</span> <span class="st">&quot;Police_demographics.csv&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Race&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Age of arrestee&quot;</span>)</a></code></pre></div>
 <pre><code>## Warning: Removed 959 rows containing missing values (geom_point).</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co">## Arrestation Age by ethnicity</span></a>
 <a class="sourceLine" id="cb38-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">ggplot</span>(Police_arrest_made, <span class="kw">aes</span>(<span class="dt">x=</span>Police_arrest_made<span class="op">$</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span>, <span class="dt">y=</span>Police_arrest_made<span class="op">$</span><span class="st">`</span><span class="dt">Arrestee&#39;s Age</span><span class="st">`</span> )) <span class="op">+</span></a>
@@ -420,7 +420,7 @@ Unknown
 <a class="sourceLine" id="cb38-6" data-line-number="6">       <span class="dt">title =</span> <span class="st">&quot;Age corresponding to each Ethnicity&quot;</span>,</a>
 <a class="sourceLine" id="cb38-7" data-line-number="7">       <span class="dt">subtitle =</span> <span class="st">&quot;Arrested pepople between 2010 and 2019&quot;</span>)</a></code></pre></div>
 <pre><code>## Warning: Removed 959 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">##Analyze the type of arrestation taking into account the race</span></a>
 <a class="sourceLine" id="cb40-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb40-3" data-line-number="3">graph5 =<span class="st"> </span>Police_arrest_made <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Type of Arrest</span><span class="st">`</span>, year) <span class="op">%&gt;%</span></a>
@@ -435,7 +435,7 @@ Unknown
 <a class="sourceLine" id="cb42-6" data-line-number="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>))  <span class="op">+</span></a>
 <a class="sourceLine" id="cb42-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Different pattern for each type of arrestation&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;year 2010 to 2019&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Date&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of arrestation&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb42-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_x_continuous</span>( <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">2010</span>,<span class="dv">2019</span>,<span class="dt">by=</span><span class="dv">1</span>))</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="incident-reports" class="section level2">
 <h2><span class="header-section-number">3.3</span> Incident reports</h2>
@@ -450,12 +450,12 @@ Unknown
 <a class="sourceLine" id="cb45-5" data-line-number="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span><span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb45-6" data-line-number="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>))  <span class="op">+</span></a>
 <a class="sourceLine" id="cb45-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;White people are the Major victim &quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;year 2010 to 2019&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Date&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of Victim&quot;</span>) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <pre><code>## Warning: Factor `Victim Race` contains implicit NA, consider using `forcats::fct_explicit_na`
 
 ## Warning: Factor `Victim Race` contains implicit NA, consider using `forcats::fct_explicit_na`</code></pre>
 <pre><code>## Don&#39;t know how to automatically pick scale for object of type difftime. Defaulting to continuous.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">##Employee demographics in the current of october 2016</span></a>
 <a class="sourceLine" id="cb48-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb48-3" data-line-number="3">graph7 =<span class="st"> </span>Employee_demographics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(Gender,Race) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Race <span class="op">!=</span><span class="st"> &quot;M&quot;</span>)</a>
@@ -468,7 +468,7 @@ Unknown
 <a class="sourceLine" id="cb48-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span><span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb48-11" data-line-number="11"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>))  <span class="op">+</span></a>
 <a class="sourceLine" id="cb48-12" data-line-number="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Majority of White employee&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Current of the year 2016&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Race&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of employee&quot;</span>) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co"># Employee Demographics</span></a>
 <a class="sourceLine" id="cb49-2" data-line-number="2">Employee_demographics <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb49-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">Job Class Description</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
@@ -744,7 +744,7 @@ SUPERVISOR-PARKING SERVICES
 <a class="sourceLine" id="cb50-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">14.24603</span>, <span class="dt">color =</span> <span class="st">&quot;darkblue&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb50-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">12.02083</span>, <span class="dt">color =</span> <span class="st">&quot;pink&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb50-11" data-line-number="11"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">size =</span><span class="dv">6</span>)) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">   <span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Service length per position and gender&quot;</span>,<span class="dt">subtitle =</span> <span class="st">&quot;The average service is slighty longer for men,n/women have greater variance among year of service&quot;</span>,<span class="dt">caption =</span> <span class="st">&quot;Employee_demographics.csv&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Positions&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Year of service&quot;</span>)</a></code></pre></div>
 <pre><code>## $x
 ## [1] &quot;Positions&quot;
@@ -784,7 +784,7 @@ SUPERVISOR-PARKING SERVICES
 <a class="sourceLine" id="cb55-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">6</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb55-8" data-line-number="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, <span class="dt">size =</span><span class="dv">6</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb55-9" data-line-number="9"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Service length per position and gender&quot;</span>,<span class="dt">subtitle =</span> <span class="st">&quot;The average service is slighty longer for men,n/women have greater variance among year of service&quot;</span>,<span class="dt">caption =</span> <span class="st">&quot;Employee_demographics.csv&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Positions&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Year of service&quot;</span>)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="victim-and-arrest-distribution" class="section level2">
 <h2><span class="header-section-number">3.4</span> Victim and Arrest distribution</h2>
@@ -969,7 +969,7 @@ SUPERVISOR-PARKING SERVICES
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">ggplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb63-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>year.x,<span class="dt">y=</span>n,<span class="dt">col=</span><span class="st">`</span><span class="dt">Victim Race</span><span class="st">`</span>), <span class="dt">data =</span> graph8) <span class="op">+</span></a>
 <a class="sourceLine" id="cb63-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>year.x, <span class="dt">y=</span>n,<span class="dt">col=</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span>), <span class="dt">data =</span> graph9)</a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">ggplot</span>(graph6,<span class="kw">aes</span>(<span class="dt">x=</span>year,<span class="dt">y=</span>n, <span class="dt">fill=</span> <span class="kw">factor</span>(<span class="st">`</span><span class="dt">Victim Race</span><span class="st">`</span>), <span class="dt">col=</span> <span class="st">`</span><span class="dt">Victim Race</span><span class="st">`</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb64-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="op">~</span><span class="st">`</span><span class="dt">Victim Gender</span><span class="st">`</span>)<span class="op">+</span></a>
@@ -977,7 +977,7 @@ SUPERVISOR-PARKING SERVICES
 <a class="sourceLine" id="cb64-5" data-line-number="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span><span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb64-6" data-line-number="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.key.size =</span> <span class="kw">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>))  <span class="op">+</span></a>
 <a class="sourceLine" id="cb64-7" data-line-number="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;White people are the Major victim &quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;year 2010 to 2019&quot;</span>, <span class="dt">x=</span> <span class="st">&quot;Date&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Number of Victim&quot;</span>) </a></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<p><img src="group10_2020_project_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
 
 </div>
 </div>
