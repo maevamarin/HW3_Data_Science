@@ -12,20 +12,5 @@ link-citations: yes
 
 # Basic instructions
 
-To obtain the maximum number of points, use whenever possible:
+Hi everybody
 
-* the pipeline symbol %>%,
-* `dplyr` verbs,
-* `kable` to print tables,
-* `ggplot` to produce the figures,
-* `purrr`'s functions to minimize code duplication,
-* `broom`'s functions to format the results model fits.
-
-Also: 
-
-* Pay attention to the general aesthetics of your report (i.e., formatting of 
-the tables, sizing of the figures, etc.). 
-* Use inline code to display single numbers, and `echo = FALSE` for code chunks when you display 
-a table of produce a figure (i.e., we don't want to see code unless it is necessary).
-* Minimize the amount of code duplication by using iterations concepts and list-columns.
-* Comment your code to explain what you are doing.

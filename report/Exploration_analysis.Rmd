@@ -1,12 +1,16 @@
+
 # Exploration analysis
+
+In order to have a global overview about our table, we are going to have a zoom on each differents table.
+
 
 ## Traffic data
 
+In Figure \@ref(fig:Traffic-stop), we observe that the main purpose of the arrestation is the limit speed violation. 
+The ratio between male and female is negletible. 
 
-```{r }
 
-##Traffic stop
-##Analyze the highest porpose of the arrestation ( between female and male)
+```{r Traffic-stop, fig.cap="The higer purpose is the speef of limit", warning=FALSE, message=FALSE, echo = FALSE}
 
 Traffic_stop_2<-Traffic_stop_2 %>% filter(Purpose != "Total" & Purpose != "FemaleTotal" & Purpose != "MaleTotal")
 
@@ -17,9 +21,10 @@ ggplot(Traffic_stop_2, aes(x=Purpose, y= Traffic_stop_2$`Total By Ethnicity`, fi
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
+In Figure \@ref(fig:Traffic-Ratio-Black/White), we observe 
 
-```{r }
-##Analyze the highest purpose of the arrestation (between black and white people)
+
+```{r Traffic-Ratio-Black/White, fig.cap="More black are arrested", warning=FALSE, message=FALSE, echo = FALSE}
 
  Traffic_stop_2 <- Traffic_stop_2 %>% mutate(Pro_Black_white = Black/White)
  Traffic_stop_2$Pro_Black_white[is.nan(Traffic_stop_2$Pro_Black_white)]<-0
@@ -42,8 +47,11 @@ ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_
 ```
 
 ## Police arrested made.
-```{r }
-#Analzye the number of arrestation over the year in relation to the race.
+
+In Figure \@ref(fig:Police-arrested-made), we observe 
+
+
+```{r Police-arrested-made, fig.cap="Evolution of the number of arrestation", warning=FALSE, message=FALSE, echo = FALSE}
 
 Police_arrest_made<- Police_arrest_made %>% mutate(month=month(`Date of Arrest`), year= year(`Date of Arrest`))
 
@@ -62,9 +70,11 @@ ggplot(graph1,aes(x=month,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's
 
 ```
 
-```{r }
-## More focus on the ration of the black and white arrested 
-##Same plot as before but only with the white and black people and plot the difference
+
+In Figure \@ref(fig:Police-arrested-made-Black/White-month), we observe 
+
+
+```{r Police-arrested-made-Black/White-month, fig.cap="Evolution of the number of arrestation between the black and white people", warning=FALSE, message=FALSE, echo = FALSE}
 
 graph2= Police_arrest_made %>% filter(`Arrestee's Race`=="White" | `Arrestee's Race` =="Black") %>% count(`Arrestee's Race`, month, year)
 
@@ -78,7 +88,10 @@ ggplot(graph2, aes(x=month,y=n)) +
 
 ```
 
-```{r }
+In Figure \@ref(fig:Police-arrested-made-Black/White-year), we observe 
+
+
+```{r Police-arrested-made-Black/White-year, fig.cap="Evolution of the number of arrestation between the black and white people", warning=FALSE, message=FALSE, echo = FALSE}
 ##Same plot as before, but only considering the year and not the month
 
 graph3= Police_arrest_made %>% filter(`Arrestee's Race`=="White" | `Arrestee's Race` =="Black") %>% count(`Arrestee's Race`, year,)
@@ -91,8 +104,10 @@ ggplot(graph3, aes(x=year,y=n)) +
   scale_x_continuous( breaks = seq(1,12,by=5))
 ```
 
-```{r }
-##Number of arrestation taking into account the race and the gender
+In Figure \@ref(fig:Arrestation-Male/Female-Black/White), we observe 
+
+
+```{r Arrestation-Male/Female-Black/White, fig.cap="Evolution of the number of arrestation between male and female", warning=FALSE, message=FALSE, echo = FALSE}
 
 graph4 = Police_arrest_made %>% count(`Arrestee's Race`, `Arrestee's Gender`, year) %>%
   filter(!is.na(`Arrestee's Race`))
@@ -108,43 +123,23 @@ ggplot(graph4,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's 
 ```
 
 
-```{r }
+ In Figure \@ref(fig:Arrestation-age), we observe 
 
-summary(Police_arrest_made)
-meanAgeArrestee <- Police_arrest_made %>%
-  group_by(`Arrestee's Race`)%>%
-  summarize(MEDIANAGR = median(`Arrestee's Age`))
-meanAgeArrestee
-```
 
-```{r }
-Police_arrest_made %>%
-  group_by(`Arrestee's Race`) %>%
-  count() %>%
-  arrange(desc(n)) %>%
-    kable(caption= "Number of Arrestees per race", digits=2) %>%
-  kable_styling(bootstrap_options = "striped")
-``` 
- 
-```{r }
- Police_arrest_made %>%
-  ggplot(aes(`Arrestee's Race`, `Arrestee's Age` )) + 
-  geom_point(aes(color =  Police_arrest_made$`Arrestee's Gender`)) +
-  geom_hline(yintercept = 33, color = "black") +
-  geom_hline(yintercept = 28, color = "bisque2") +
-  geom_hline(yintercept = 27, color = "orange") +
-  geom_hline(yintercept = 25, color = "yellow") +
-   labs(title = "Age of Arrestee per race",subtitle = "",caption = "Police_demographics.csv", x= "Race", y="Age of arrestee")
-```
-
-```{r }
+```{r Arrestation-age, fig.cap="Evolution of the number of arrestation between male and female", warning=FALSE, message=FALSE, echo = FALSE}
 ## Arrestation Age by ethnicity
 
-ggplot(Police_arrest_made, aes(x=Police_arrest_made$`Arrestee's Race`, y=Police_arrest_made$`Arrestee's Age` )) +
+
+Police_arrest_made %>%
+  filter(`Arrestee's Race`=="Black" | `Arrestee's Race` =="White") %>%
+  ggplot(aes(x=`Arrestee's Race`,y= `Arrestee's Age` ))+
   geom_boxplot() +
-  labs(x= "Arrestee's Race", y= "Age",
-       title = "Age corresponding to each Ethnicity",
-       subtitle = "Arrested pepople between 2010 and 2019")
+  labs (
+    title = "More outlier for the white race",
+    subtitle = "Arrested pepople between 2010 and 2019",
+    x= "Arrestee's Race",
+    y= "Age"
+      )
 ```
 
 ```{r }

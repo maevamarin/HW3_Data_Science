@@ -1,23 +1,8 @@
 # Introduction
 
+## The data
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## Loading all the library
-
-```{r }
-library(readr)
-library(tidyverse)
-library(lubridate)
-library(kableExtra)
-```
-
-## Loading the data
-
-```{r }
-library(readr)
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 
 Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
 
@@ -29,12 +14,50 @@ Employee_demographics<- read_delim("data/police-employee-demographics.csv",";", 
 
 Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", escape_double = FALSE, trim_ws = TRUE)
 
-
 ```
+
+For this assignement we use then Chapel Hill Crime and Police Data.
+
+These sets of datasets will focus on datasets gathered from Chapel Hill Open Data, which is managed and run by the town of chapel hill. This readme is a compilation of information that represents what each file will be about. Most of the datasets can be understood by reading the summary page from the Chapel Hill Open Data website.
+We use four differents table.
+
+### Police Incidents Reports Written
+Summary: This dataset contains incident reports filed with the Chapel Hill Police Department. Multiple incidents may have been reported at the same time. The most serious incident is shown for each report filed. Data available since January 1, 2010 and updated quarterly.
+Observations: 82’525
+Variables: 18
+
+
+
+### Drivers and Passengers Searched By Sex Race and Ethnicity
+Summary: This dataset contains data on drivers and passengers searched during traffic stops, broken down by sex, race, and ethnicity.
+Observations: 8 
+Variables: 14
+
+### Initial Purpose of Traffic Stop by Drivers Sex Race and Ethnicity
+Summary: This dataset contains data on the initial purpose of traffic stops, broken down by sex, race, and ethnicity.
+Observations: 46
+Variables:12
+
+### Police Arrests Made
+Summary: This dataset contains arrests made by the Chapel Hill Police Department. Multiple individuals may have been arrested under the same arrest number during related incidents or arrests. Data available since January 1, 2010 and updated quarterly.
+Observations: 16040
+Variables: 12
+
+
+### Police Employee Demographics
+Summary: This dataset contains demographics information for employees of the Chapel Hill Police Department. Current as of October 2016.
+Observations: 174
+Variables: 7
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
 
 ## Cleaning the data
 
-```{r  }
+```{r warning=FALSE, message=FALSE, echo = FALSE}
   Police_arrest_made <- Police_arrest_made%>% 
    mutate( `Drugs or Alcohol Present` = fct_collapse(`Drugs or Alcohol Present`,
     "Yes"="Y",

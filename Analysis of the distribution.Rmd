@@ -1,0 +1,24 @@
+# Analysis of the distribution
+## Victim and Arrest 
+
+
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
+Police_arrest_made$`Date of Arrest`
+
+test<-left_join(Incident_reports, Police_arrest_made, by = c("Date of Occurrence"="Date of Arrest"))
+
+`
+
+Table_joint <- test %>%
+              select(year.x,`Arrestee's Race`, `Victim Race`) %>%
+              filter(`Arrestee's Race`=="Black" | `Arrestee's Race`=="White" ) %>%
+              filter(`Victim Race` =="Black"| `Victim Race` =="White")
+
+Table_joint<-Table_joint %>%
+  select(-year.x)
+
+library(caret)
+confusionMatrix(Table_joint, Table_joint$`Victim Race`,`Arrestee's Race`)
+
+##Demandeer a iegor pour faire une matrice de confusion
+```

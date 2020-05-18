@@ -7,6 +7,7 @@ rmd_files: [
   "index.Rmd",
   "report/Introduction.Rmd",
   "report/Exploration_analysis.Rmd",
-  "report/Modelisation.Rmd",
-  "report/references.Rmd"
+  "report/Modeling.Rmd",
+  "report/references.Rmd",
+  "report/conclusion.Rmd"
 ]
