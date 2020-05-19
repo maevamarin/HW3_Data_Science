@@ -10,7 +10,6 @@ biblio-style: apalike
 link-citations: yes
 ---
 
-# Basic instructions
+# Motivation
 
-Hi everybody
-
+The initial motivation of this project is to work on the characteristics the parties involved in crime and on the (im)partiality of the American judicial system. The cliché rift between black/white people often agitates news and press and stirs up American society, in addition to sadly common shootings on public places.

@@ -1,8 +1,13 @@
 # Introduction
 
+By using the CHPD database, far from finding a universal answer applicable to the United States of America in a whole because our sample does not allow us to do so, we have the possibility of considering the socio-demographic characteristics of offenders, victims and police officers over a defined period and time span in order to check whether the clichés of the cleavage can be confirmed or refuted. The use of this database potentially allows us to identify some potentially significant correlations between factors of delinquency or bias among police officers.
+
+Our goal is to find some significant correlation between the variables in order to profile the different offenders and victims. We will investigate if those profiles are representative of the population and the offender’s and victim’s panoplies differ between white and black people. An insight on some contributing factors of arrestation among a certain type of population could be of great help to point out the judicial bias we’re hunting.
+
 ## The data
 
 ```{r warning=FALSE, message=FALSE, echo = FALSE}
+
 
 Traffic_stop<- read_delim("data/drivers-and-passengers-searched-by-sex-race-and-ethnicity.csv",";", escape_double = FALSE, trim_ws = TRUE)
 
@@ -22,26 +27,68 @@ These sets of datasets will focus on datasets gathered from Chapel Hill Open Dat
 We use four differents table.
 
 ### Police Incidents Reports Written
-Summary: This dataset contains incident reports filed with the Chapel Hill Police Department. Multiple incidents may have been reported at the same time. The most serious incident is shown for each report filed. Data available since January 1, 2010 and updated quarterly.
+This dataset contains incident reports filed with the Chapel Hill Police Department. Multiple incidents may have been reported at the same time. The most serious incident is shown for each report filed. Data available since January 1, 2010 and updated quarterly.
 Observations: 82’525
 Variables: 18
+
+In the table \@ref(tab:Table_Incidents_Reports), you have an overview about the variables we will use for our project.
+
+```{r Table_Incidents_Reports, warning=FALSE, message=FALSE, echo = FALSE}
+Incident_reports%>%
+  select(Offense,`Date of Report`,`Date of Occurrence`,`Reported As`,`Victim Age`,`Victim Race`,`Victim Gender`) %>%
+  head(30)%>%
+  na.omit(Incident_reports) %>%
+    kable(caption= "Table incident report", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+``` 
 
 
 
 ### Drivers and Passengers Searched By Sex Race and Ethnicity
-Summary: This dataset contains data on drivers and passengers searched during traffic stops, broken down by sex, race, and ethnicity.
+This dataset contains data on drivers and passengers searched during traffic stops, broken down by sex, race, and ethnicity.
 Observations: 8 
 Variables: 14
+In the table \@ref(tab:Table_Traffic_Stop), you have an overview about the variables we will use for our project.
+
+```{r Table_Traffic_Stop, warning=FALSE, message=FALSE, echo = FALSE}
+Traffic_stop%>%
+  select(-`Total By Race`,-TotalStopped,-`Total By Ethnicity`,-`Percent Searched`) %>%
+  head() %>%
+    kable(caption= "Table Traffic Stop", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+
+``` 
 
 ### Initial Purpose of Traffic Stop by Drivers Sex Race and Ethnicity
 Summary: This dataset contains data on the initial purpose of traffic stops, broken down by sex, race, and ethnicity.
 Observations: 46
 Variables:12
+In the table \@ref(tab:Table_Traffic_Stop_2),
+
+```{r Table_Traffic_Stop_2, warning=FALSE, message=FALSE, echo = FALSE}
+Traffic_stop_2 %>%
+  select(-`Total By Race`,-`Total By Ethnicity`,-Pro_Black_white) %>%
+  head(5) %>%
+    kable(caption= "Table Traffic stop 2", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+
+``` 
 
 ### Police Arrests Made
 Summary: This dataset contains arrests made by the Chapel Hill Police Department. Multiple individuals may have been arrested under the same arrest number during related incidents or arrests. Data available since January 1, 2010 and updated quarterly.
 Observations: 16040
 Variables: 12
+
+In the table \@ref(tab:Table_Police_Arrest_Made),
+
+```{r Table_Police_Arrest_Made, warning=FALSE, message=FALSE, echo = FALSE}
+Police_arrest_made %>%
+  select(-`Incident Id`,-`Time of Arrest`,-Address,-month,-year) %>%
+  na.omit(Incident_reports) %>%
+  head(5) %>%
+    kable(caption= "Police arrest Made", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+``` 
 
 
 ### Police Employee Demographics
@@ -49,13 +96,34 @@ Summary: This dataset contains demographics information for employees of the Cha
 Observations: 174
 Variables: 7
 
+In the table \@ref(tab:Table_Police_Employee_Demographics),
+
+```{r Table_Police_Employee_Demographics, warning=FALSE, message=FALSE, echo = FALSE}
+Employee_demographics %>%
+  select(-`Officer ED No.`) %>%
+  head(5) %>%
+    kable(caption= "Employee Demographics", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+``` 
+
+In the table \@ref(tab:Table_Job_Description),
+
+```{r Table_Job_Description,warning=FALSE, message=FALSE, echo = FALSE}
+
+Employee_demographics %>% 
+  count(`Job Class Description`,Race) %>% 
+  arrange(desc(n))%>%
+  head(5)  %>%
+    kable(caption= "Job description", digits=2) %>%
+  kable_styling(bootstrap_options = "striped")
+``` 
+
 ```{r warning=FALSE, message=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
 
-## Cleaning the data
 
 ```{r warning=FALSE, message=FALSE, echo = FALSE}
   Police_arrest_made <- Police_arrest_made%>% 
@@ -85,7 +153,11 @@ Incident_reports<- Incident_reports%>%
     "Native American"="I",
     "Other" ="O",
     "Unknown"="U",
-    "White"="W"))
+    "White"="W")) %>%
+  mutate(`Victim Gender`=fct_collapse(`Victim Gender`,
+    "Female"="F",
+    "Male"="M")) %>%
+  filter(`Victim Age`<100)
 
 Employee_demographics<- Employee_demographics %>%
   mutate(Race = fct_collapse(Race,
@@ -95,7 +167,11 @@ Employee_demographics<- Employee_demographics %>%
     "Native American"="I",
     "Other" ="O",
     "Unknown"="U",
-    "White"="W"))
+    "White"="W")) 
 
+Traffic_stop_2 <- Traffic_stop_2 %>%
+  mutate(Gender= fct_collapse(Gender,
+        "Female"="F",
+        "Male" = "M"))
 
 ```

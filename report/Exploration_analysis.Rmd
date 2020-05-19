@@ -162,7 +162,7 @@ ggplot(graph5,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's 
 
 ## Incident reports
 
-```{r }
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
 
 Incident_reports<- Incident_reports %>% mutate(month=month(`Date of Occurrence`), year= year(`Date of Occurrence`))
 
@@ -177,7 +177,7 @@ ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) 
   labs(title = "White people are the Major victim ", subtitle = "year 2010 to 2019", x= "Date",y="Number of Victim") 
 ```
 
-```{r , echo=FALSE}
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
 Incident_reports%>%
   group_by(`Victim Race`)  %>%
   mutate(DELAYReported = `Date of Report`- `Date of Occurrence`, DELAYArrested = `Date Found`- `Date of Occurrence`) %>%
@@ -188,7 +188,7 @@ Incident_reports%>%
 
 ```
 
-```{r }
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
 ##Employee demographics in the current of october 2016
 
 graph7 = Employee_demographics %>% count(Gender,Race) %>% filter(Race != "M")
@@ -205,7 +205,7 @@ ggplot(graph7,aes(x=Race,y=n)) +
 ```
 
 
-```{r }
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # Employee Demographics
 Employee_demographics %>%
   group_by(`Job Class Description`) %>%
@@ -215,7 +215,7 @@ Employee_demographics %>%
   kable_styling(bootstrap_options = "striped")
 ```
 
-```{r }
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
 #Comupting the mean for the next plot
 meanM<- Employee_demographics%>%
   group_by(Gender) %>%
@@ -231,7 +231,7 @@ Employee_demographics %>%
 ```
 
 
-```{r}
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
  #Computing the mean service length per race
 meanR<- Employee_demographics%>%
   group_by(Race) %>%
@@ -249,30 +249,4 @@ Employee_demographics %>%
  
 ```
 
-## Victim and Arrest distribution
 
-```{r}
-Police_arrest_made$`Date of Arrest`
-
-test<-left_join(Incident_reports, Police_arrest_made, by = c("Date of Occurrence"="Date of Arrest"))
-
-graph8 <- test %>%filter(year.x>=2010) %>% count(`Victim Race`, `Victim Gender` , year.x) %>% filter(`Victim Gender`=="F" | `Victim Gender`=="M") %>% filter(`Victim Race`=="Black")
-
-graph9 <- test %>% filter(year.x>=2010) %>% count(`Arrestee's Race`, `Arrestee's Gender`,year.x) %>% filter(`Arrestee's Gender`=="F" | `Arrestee's Gender`=="M" ) %>%  filter(`Arrestee's Race`=="Black")
-
-
-ggplot() +
-  geom_line(aes(x=year.x,y=n,col=`Victim Race`), data = graph8) +
-  geom_line(aes(x=year.x, y=n,col=`Arrestee's Race`), data = graph9)
-
-
-ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) +
-  geom_line() +
-  facet_grid(~`Victim Gender`)+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(legend.position ="bottom") +
-  theme(legend.key.size = unit(0.5, "cm"))  +
-  labs(title = "White people are the Major victim ", subtitle = "year 2010 to 2019", x= "Date",y="Number of Victim") 
-
-
-```
