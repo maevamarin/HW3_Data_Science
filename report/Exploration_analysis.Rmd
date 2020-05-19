@@ -166,7 +166,7 @@ ggplot(graph5,aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's 
 
 Incident_reports<- Incident_reports %>% mutate(month=month(`Date of Occurrence`), year= year(`Date of Occurrence`))
 
-graph6 = Incident_reports %>%filter(year>=2010) %>% count(`Victim Race`, `Victim Gender` , year) %>% filter(`Victim Gender`=="F" | `Victim Gender`=="M")
+graph6 = Incident_reports %>%filter(year>=2010) %>% count(`Victim Race`, `Victim Gender` , year) %>% filter(`Victim Gender`=="Female" | `Victim Gender`=="Male")
 
 ggplot(graph6,aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) +
   geom_line() +
@@ -248,5 +248,6 @@ Employee_demographics %>%
    labs(title = "Service length per position and gender",subtitle = "The average service is slighty longer for men,n/women have greater variance among year of service",caption = "Employee_demographics.csv", x= "Positions", y="Year of service")
  
 ```
+
 
 

@@ -67,7 +67,7 @@ In the table \@ref(tab:Table_Traffic_Stop_2),
 
 ```{r Table_Traffic_Stop_2, warning=FALSE, message=FALSE, echo = FALSE}
 Traffic_stop_2 %>%
-  select(-`Total By Race`,-`Total By Ethnicity`,-Pro_Black_white) %>%
+  select(-`Total By Race`,-`Total By Ethnicity`) %>%
   head(5) %>%
     kable(caption= "Table Traffic stop 2", digits=2) %>%
   kable_styling(bootstrap_options = "striped")
@@ -83,7 +83,7 @@ In the table \@ref(tab:Table_Police_Arrest_Made),
 
 ```{r Table_Police_Arrest_Made, warning=FALSE, message=FALSE, echo = FALSE}
 Police_arrest_made %>%
-  select(-`Incident Id`,-`Time of Arrest`,-Address,-month,-year) %>%
+  select(-`Incident Id`,-`Time of Arrest`,-Address) %>%
   na.omit(Incident_reports) %>%
   head(5) %>%
     kable(caption= "Police arrest Made", digits=2) %>%
@@ -167,7 +167,10 @@ Employee_demographics<- Employee_demographics %>%
     "Native American"="I",
     "Other" ="O",
     "Unknown"="U",
-    "White"="W")) 
+    "White"="W")) %>%
+  mutate(Gender=fct_collapse(Gender,
+    "Female"="F",
+    "Male"="M"))
 
 Traffic_stop_2 <- Traffic_stop_2 %>%
   mutate(Gender= fct_collapse(Gender,
