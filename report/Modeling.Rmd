@@ -1,7 +1,7 @@
 
 # Modeling
 
-## Modeling - Arrestation
+## Modeling - Criminal
 
 ```{r , include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Arrestation= Police_arrest_made %>%
   group_by(`Arrestee's Age`,`Arrestee's Race`, `Arrestee's Gender`, `Drugs or Alcohol Present` ) %>%
-  filter(`Arrestee's Race`=="Black" | `Arrestee's Race` =="White") %>%
   summarize(arrestation=n())
 augment_model<- broom::augment(model)
 
@@ -176,7 +175,7 @@ Arrestation_2 %>%
   )
 
 ```
-## Modelling the victim
+## Modelling - Victim
 
 The second model aims to model the profil of victims. Again, we use a General Linear model to estimate the number of victims by population characteristics per XXXX, by taking into account the age, race and gender of the victims.
 
@@ -184,7 +183,6 @@ The second model aims to model the profil of victims. Again, we use a General Li
 
 Victim= Incident_reports %>%
   group_by(`Victim Age`,`Victim Gender`,`Victim Race`) %>%
-  filter(`Victim Race`=="Black" | `Victim Race` =="White")%>%
   summarize(Victim=n())
 
 augment_model_victim<- broom::augment(model_victim)
