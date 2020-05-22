@@ -1,0 +1,15 @@
+--- 
+title: "Project Assignment"
+author: "Eugénie Mathieu, Maeva Marin"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+site: bookdown::bookdown_site
+output: bookdown::html_document2
+documentclass: book
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+---
+
+# Motivation
+
+The initial motivation of this project is to work on the characteristics the parties involved in crime and on the (im)partiality of the American judicial system. The cliché rift between black/white people often agitates news and press and stirs up American society, in addition to sadly common shootings on public places.

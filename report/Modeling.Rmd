@@ -1,0 +1,310 @@
+
+# Modeling
+
+## Modeling - Criminal
+
+```{r , include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+  
+  
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+
+Arrestation= Police_arrest_made %>%
+  group_by(`Arrestee's Age`,`Arrestee's Race`, `Arrestee's Gender`, `Drugs or Alcohol Present` ) %>%
+  summarize(arrestation=n())
+augment_model<- broom::augment(model)
+
+```
+
+
+Once the exploration analysis done, we pursue with the modelization of the profile of our arrestees and victims. As a gentle reminder, the aim of our project is to build the typical profil drawn by the database in order to know whether or not race has a strong influence and thus, to consider if there is objectively a partial legal force.
+
+We would first build the model for arrestee’s profile. In order to do so, we use the General Linear Model to shape our dependent variable, the number of arrestation, explain by our independent variables: the age, race and gender of the arrestee and if it was under the influence of drugs and alcool. We use dummy variables to better understand the impact of the outcomes.
+```{r model_arrestation}
+model = glm(arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present` , data= Arrestation)
+```
+
+We observe that ceteris paribus, approximatively 49 arrestations (intercept) would be done in our reference case as we could observe in the table \@ref(tab:Table-estimate). The reference case is the average of possibility between all combinations possible with our variable references and here, since we have dummy variables, it encompasses  the lowest probable profile of arrestees: black women. This reference level gives the irreductible number of arrestations the Chapel Hill Police District would operate for this category per XXX. 
+
+The arrestee Age has a negative effect: it depicts that higher is the age of the arrestee lower is the probability to encounter this person, since a high age would decrease, ceteris paribus, the number of arrestations in fine by the exact value of the age of the arrestee. This coefficient is significant.
+
+The other significant coefficients are the gender of the arrestee and the presence of drugs and alcool, the last information is divided into two significant dummy variables. Being a male would higher by almost 29 additional arrestations, ceteris paribus. The male gender has a strong effect: + 58.10% of arrestations.
+Drugs and alcohol dummy variables have as wellspring effects: The unknown presence of those substances decrease our outcome by approx. 16 arrestations (-15.63), ceteris paribus, while their presence would increase by almost 19 arrestations (18.83). 
+
+Unfortunately, this model does not give us the expect insight on race: being white is positively correlated with the number of arrestation, making white race a more probable characteristic in the typical arrestee profile. We should have intuitively deducted that indeed, however the coefficient is not significant. 
+
+
+
+```{r Table-estimate,warning=FALSE, message=FALSE, echo = FALSE}
+
+broom::tidy(model) %>% 
+  mutate(p.value = paste(round(p.value, 4), pval_star(p.value))) %>%
+  select(-statistic) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+```
+
+Those informations brought by the model are themselves accurate? To know it, we have to analyse the goodness of fit of the model and explore in more details the distribution of the errors and also the distribution or our data.
+
+In Figure \@ref(fig:Residuals), we observe exterme value, which have a lot of weight concerning the distribution of our errors, therefore we have chosen to remove these extreme values in order to better visualize the distribution of our errors.
+
+
+```{r Residuals, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
+
+#Bad prediction when the number of arrestation  increase
+
+p1<- augment_model %>% 
+  ggplot(aes(x=arrestation,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Arrestation", 
+    y = "Residuals",
+    title = "Bad prediction when the number of arrests increases",
+    subtitle = "Residuals's variation ")
+
+
+
+p2<- Graph %>% 
+ggplot()+
+  geom_histogram(aes(arrestation))  +
+  labs(
+    title = "Dstribution around 0",
+    subtitle = "Error Distribution",
+    x= "Arrestation",
+    y= "Number of arrestation")
+
+(p1 + p2) +
+  plot_annotation(
+    title = "Weight of the extreme value")
+
+
+```
+
+ 
+
+After removing these extreme values, we observe in the figure \@ref(fig:Residuals-2) that the errors are normally distributed with 0 as mean (because we predicts only positive value, the bell curve is non existant on the left-hand side of the y-axis, but can be expected). It means that the values of errors are close to zero, leading to very low RMSE and MAE. This is a very good point. In addition, the curve of error values verifies as well the assumption of normal distribution. Now, are they randomly distributed?
+
+```{r Residuals-2, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
+
+augment_model %>%
+  filter(arrestation<100) %>%
+  ggplot(aes(x=arrestation,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Arrestation", 
+    y = "Residuals",
+    title = "Bad prediction when the number of arrests increases",
+    subtitle = "Residuals's variation ")
+
+```
+
+
+Concerning the predictions of our response variable "Arrestation", we can observe in the figure \@ref(fig:Prediction-arrestation), that our predictions and our observed values overlap, which is good news.
+On the other hand, our model has difficulty in predicting extreme values, especially for the white race.
+
+```{r Prediction-arrestation, fig.cap="Prediction", warning=FALSE, message=FALSE, echo = FALSE}
+
+
+augment_model %>% ggplot() +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= arrestation, col="Observed")) +
+  geom_boxplot(aes(x=Arrestee.s.Race, y= .fitted, col="Fitted" )) +
+  labs(title = "Well goodness-of fit",
+       subtitle = "Between the observed and fitted value",
+       x= "Race",
+       y= "Arrestation",
+       col= "Model")
+
+##Iegor, comment faire pour prédire selon la race ?
+
+```
+
+Now, what happens if we add other variables to our model to explain our response variable "Arrest".
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+
+
+Arrestation_2= Police_arrest_made %>%
+  group_by(`Arrestee's Age`,`Arrestee's Race`, `Arrestee's Gender`, `Drugs or Alcohol Present`, `Type of Arrest`,`Weapon Present`) %>%
+  filter(`Arrestee's Race`=="Black" | `Arrestee's Race` =="White") %>%
+  filter(`Drugs or Alcohol Present`!= "Unknown") %>%
+  na.omit()%>%
+  summarize(arrestation=n())
+
+```
+
+```{r model-arrestation-2, warning=FALSE, message=FALSE, echo = TRUE}
+
+model_Arrestation_2 = glm(arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present` + `Type of Arrest` + `Weapon Present`, data= Arrestation_2)
+
+```
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+
+broom::tidy(model_Arrestation_2) %>% 
+  mutate(p.value = paste(round(p.value, 4), pval_star(p.value))) %>%
+  select(-statistic) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+```
+
+
+In the table \@ref(tab:Table-Arrestation-2), we observe the seven most important variables associated with explaining a typical arrest
+
+```{r Table-Arrestation-2, warning=FALSE, message=FALSE, echo = FALSE}
+
+Arrestation_2 %>%
+  arrange( desc(arrestation)) %>%
+  head(7) %>%
+   kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+```
+## Modelling - Victim
+
+The second model aims to model the profil of victims. Again, we use a General Linear model to estimate the number of victims by population characteristics per XXXX, by taking into account the age, race and gender of the victims.
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+
+Victim= Incident_reports %>%
+  group_by(`Victim Age`,`Victim Gender`,`Victim Race`) %>%
+  summarize(Victim=n())
+
+augment_model_victim<- broom::augment(model_victim)
+
+```
+
+```{r model-victim}
+
+model_victim = glm(Victim ~ `Victim Age` + `Victim Gender` + `Victim Race` , data= Victim)
+
+```
+
+Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table \@ref(tab:Table-estimate-victim). The irreductible number of victime for  those population, neglecting the age is approximatively 201 cases (200.56). This number is significant.
+
+Considering now our variables: The age is negatively correlated with the number of victim by decreasing it with an effect of -2.70! We expect thus a larger number of young victims, since this coefficient is reliable since significant. Being white is risk factor: more victims are white and this is represented by the strong positive effect of the dummy variable, significant as well, called `Victim RAce`White: +86.79 so additional 87 numbers of victims by comparison to our reference level.
+
+Here, we have a strong racial effect: black people are less subject to misuse, aggressions, etc. than white people. Our database cannot help any supporting justification with demographics, because it does not contain any data on wealth, privileges, other objective or subjective factors causing people to aggress them.
+
+Finally, the interesting point remains that gender is not significant, in spite of the negative effect (in the model, but a benefit in reality) to be a male. Being a male decreases, ceteris paribus, the number of cases by approximatively 13 victims (13.42).
+
+
+```{r Table-estimate-victim,warning=FALSE, message=FALSE, echo = FALSE}
+
+broom::tidy(model_victim) %>% 
+  mutate(p.value = paste(round(p.value, 4), pval_star(p.value))) %>%
+  select(-statistic) %>%
+  kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+```
+ 
+ The errors are distributed around zero, leading to low errors scores, satisfying! But some errors remains as outliers, Errors value follow a gaussian distribution here as well, illustrating quite a poisson curve.
+
+ In Figure \@ref(fig:Residuals-victim), we observe 
+
+```{r Residuals-victim, fig.cap="Residuals of the models about the model victim", warning=FALSE, message=FALSE, echo = FALSE}
+
+#Bad prediction when the number of arrestation  increase
+
+p3<- augment_model_victim %>% 
+  ggplot(aes(x=Victim,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Number of victims", 
+    y = "Residuals",
+    title = "Bad prediction when the number of victim increases",
+    subtitle = "Residuals's variation ")
+
+p4<- Victim %>% 
+ggplot()+
+  geom_histogram(aes(Victim))  +
+  labs(
+    title = "Dstribution around 0",
+    subtitle = "Error Distribution",
+    x= "Arrestation",
+    y= "Number of arrestation")
+
+(p3 + p4) +
+  plot_annotation(
+    title = "Weight of the extreme value")
+
+
+
+```
+
+In order to well undersant what is inside the extreme value as we obsevre  the figure \@ref(fig:Residuals-victim), we present the seven typical profil of a victim , in the table \@ref(tab:Table_distribution-Victim), we notice that the victim is all the time a young white person.
+
+
+```{r Table-distribution-Victim, fig.cap="Dstribution of the residuals", warning=FALSE, message=FALSE, echo = FALSE}
+
+Victim %>%
+  arrange( desc(Victim)) %>%
+  head(7) %>%
+   kable( 
+  caption = "Information about the estimate of the model", digits = 2
+  ) %>% 
+  kable_styling(
+  bootstrap_options = "striped"
+  )
+
+```
+
+After removing these extreme values,the error variation is oscillating around zero, \@ref(fig:Residuals-model-victim), following no identifiable pattern: we might say they are randomly distributed. Both initial assumptions are verifies, our model seems to be well-built!! 
+
+
+
+The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation.
+
+
+```{r Residuals-model_victim, fig.cap="Dstribution of the residuals", warning=FALSE, message=FALSE, echo = FALSE}
+augment_model_victim %>% 
+filter(Victim<200) %>%
+  ggplot(aes(x=Victim,y=.resid)) + 
+  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
+  geom_line() + 
+  labs(
+    x = "Number of victims", 
+    y = "Residuals",
+    title = "Bad prediction when the number of victim increases",
+    subtitle = "Residuals's variation ")
+
+```
+
+
+The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation, as we notice in the figure \@ref(fig:Prediction-model-victim)
+
+```{r Prediction-model-victim, fig.cap="Prediction victim model", warning=FALSE, message=FALSE, echo = FALSE}
+
+augment_model_victim %>% ggplot() +
+  geom_boxplot(aes(x=Victim.Race, y= Victim, col="Observed")) +
+  geom_boxplot(aes(x=Victim.Race, y= .fitted, col="Fitted" )) +
+  labs(title = "Well goodness-of fit",
+       subtitle = "Between the observed and fitted value",
+       x= "Race",
+       y= "Number of victim",
+       col= "Model")
+
+```
+
+

@@ -1,0 +1,13 @@
+book_filename: "group10_2020_project"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "report/Introduction.Rmd",
+  "report/Exploration_analysis.Rmd",
+  "report/Modeling.Rmd",
+  "report/references.Rmd",
+  "report/conclusion.Rmd"
+]

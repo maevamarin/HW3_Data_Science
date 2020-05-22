@@ -1,0 +1,7 @@
+bookdown::html_document2: default
+bookdown::gitbook: default
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  citation_package: natbib
+bookdown::epub_book: default

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Introduction | _main.utf8</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Introduction | _main.utf8" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Introduction | _main.utf8" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="exploration-analysis.html"/>
+<link rel="next" href="modeling.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>1</b> Conclusion</a></li>
+<li class="chapter" data-level="2" data-path="exploration-analysis.html"><a href="exploration-analysis.html"><i class="fa fa-check"></i><b>2</b> Exploration analysis</a><ul>
+<li class="chapter" data-level="2.1" data-path="exploration-analysis.html"><a href="exploration-analysis.html#traffic-data"><i class="fa fa-check"></i><b>2.1</b> Traffic data</a></li>
+<li class="chapter" data-level="2.2" data-path="exploration-analysis.html"><a href="exploration-analysis.html#police-arrested-made."><i class="fa fa-check"></i><b>2.2</b> Police arrested made.</a></li>
+<li class="chapter" data-level="2.3" data-path="exploration-analysis.html"><a href="exploration-analysis.html#incident-reports"><i class="fa fa-check"></i><b>2.3</b> Incident reports</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>3</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1" data-path="introduction.html"><a href="introduction.html#overview-and-motivation"><i class="fa fa-check"></i><b>3.1</b> Overview and Motivation</a></li>
+<li class="chapter" data-level="3.2" data-path="introduction.html"><a href="introduction.html#the-data"><i class="fa fa-check"></i><b>3.2</b> The data</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="introduction.html"><a href="introduction.html#police-incidents-reports-written"><i class="fa fa-check"></i><b>3.2.1</b> Police Incidents Reports Written</a></li>
+<li class="chapter" data-level="3.2.2" data-path="introduction.html"><a href="introduction.html#drivers-and-passengers-searched-by-sex-race-and-ethnicity"><i class="fa fa-check"></i><b>3.2.2</b> Drivers and Passengers Searched By Sex Race and Ethnicity</a></li>
+<li class="chapter" data-level="3.2.3" data-path="introduction.html"><a href="introduction.html#initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity"><i class="fa fa-check"></i><b>3.2.3</b> Initial Purpose of Traffic Stop by Drivers Sex Race and Ethnicity</a></li>
+<li class="chapter" data-level="3.2.4" data-path="introduction.html"><a href="introduction.html#police-arrests-made"><i class="fa fa-check"></i><b>3.2.4</b> Police Arrests Made</a></li>
+<li class="chapter" data-level="3.2.5" data-path="introduction.html"><a href="introduction.html#police-employee-demographics"><i class="fa fa-check"></i><b>3.2.5</b> Police Employee Demographics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>4</b> Modeling</a><ul>
+<li class="chapter" data-level="4.1" data-path="modeling.html"><a href="modeling.html#modeling---arrestation"><i class="fa fa-check"></i><b>4.1</b> Modeling - Arrestation</a></li>
+<li class="chapter" data-level="4.2" data-path="modeling.html"><a href="modeling.html#modelling-the-victim"><i class="fa fa-check"></i><b>4.2</b> Modelling the victim</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">3</span> Introduction</h1>
+<div id="overview-and-motivation" class="section level2">
+<h2><span class="header-section-number">3.1</span> Overview and Motivation</h2>
+<p>Provide an overview of the project goals and the motivation for it. Consider that this will be read by people who did not see your project proposal.</p>
+<p>Related Work: Anything that inspired you, such as a paper, a website, or something we discussed in class.</p>
+<p>Initial Questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?</p>
+<p>Our motivation is to work on the characteristics explaining crime and (im)partiality of the American judicial system applied. In addition to shootings on public places, cliché rift between black/white people often agitates news and press and stirs up American society. For this project we will use data from Chapel Hill Open Data, which is about the crime in this sate.</p>
+<p>By using the CHPD database, far from finding a universal answer applicable to the United States of America in a whole because our sample does not allow us to do so, we have the possibility of considering the socio-demographic characteristics of offenders and police officers over a defined period and time span in order to check whether the clichés of the cleavage can be confirmed or refuted. The use of this database potentially allows us to identify some potentially significant correlations between factors of delinquency or bias among police officers</p>
+<p>Our goal is to find some significant correlation between the variables in order to profile the different offenders and see if these profiles infer with the typical characteristics of police profiles.
+Does the concentration of police officer profiles have a link with the profiles of offenders, the offences committed or the satisfaction of the population with the service they receive from the police?
+From sociodemographic of the people arrested do stem some insight on some contributing factors of arrestation among a certain type of population or a precise distribution of delinquency among the socio demographics?</p>
+</div>
+<div id="the-data" class="section level2">
+<h2><span class="header-section-number">3.2</span> The data</h2>
+<p>As mentioned above ,for this assignement we use then Chapel Hill Crime and Police Data.</p>
+<p>These sets of datasets will focus on datasets gathered from Chapel Hill Open Data, which is managed and run by the town of chapel hill. This readme is a compilation of information that represents what each file will be about. Most of the datasets can be understood by reading the summary page from the Chapel Hill Open Data website.(<a href="https://www.chapelhillopendata.org/explore/?sort=modified&amp;refine.keyword=Police" class="uri">https://www.chapelhillopendata.org/explore/?sort=modified&amp;refine.keyword=Police</a>)
+We are going to use four differents tables.</p>
+<p>We didn’t have to do any data cleansing. We just renamed the names of a few observations so that the reader could understand what they were about.</p>
+<div id="police-incidents-reports-written" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Police Incidents Reports Written</h3>
+<p>This dataset contains incident reports filed with the Chapel Hill Police Department. Multiple incidents may have been reported at the same time. The most serious incident is shown for each report filed. Data available since January 1, 2010 and updated quarterly.
+Observations: 82’525
+Variables: 18</p>
+<p>For this project, we are going to use the 6 variables present in the table <a href="introduction.html#tab:Table-Incidents-Reports">3.1</a>. Those variables seems to be the most important for our project.</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:Table-Incidents-Reports">Table 3.1: </span>Table incident reports
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date of Report
+</th>
+<th style="text-align:left;">
+Date of Occurrence
+</th>
+<th style="text-align:left;">
+Reported As
+</th>
+<th style="text-align:right;">
+Victim Age
+</th>
+<th style="text-align:left;">
+Victim Race
+</th>
+<th style="text-align:left;">
+Victim Gender
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+THEFT/LARCENY
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+W
+</td>
+<td style="text-align:left;">
+F
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="drivers-and-passengers-searched-by-sex-race-and-ethnicity" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Drivers and Passengers Searched By Sex Race and Ethnicity</h3>
+<p>This dataset contains data on drivers and passengers searched during traffic stops, broken down by sex, race, and ethnicity.
+Observations: 8
+Variables: 14
+In the table <a href="introduction.html#tab:Table-Traffic-Stop">3.2</a>, you have an overview of the variables present in this dataset. Further, for our project we are going only to take into account black and white race, as the other seems to be less significant.</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:Table-Traffic-Stop">Table 3.2: </span>Table Traffic Stop
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+Type
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+White
+</th>
+<th style="text-align:right;">
+Black
+</th>
+<th style="text-align:right;">
+Native American
+</th>
+<th style="text-align:right;">
+Asian
+</th>
+<th style="text-align:right;">
+Other
+</th>
+<th style="text-align:right;">
+Hispanic
+</th>
+<th style="text-align:right;">
+Non Hispanic
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Passenger
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Passenger
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+Driver
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+166
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+Driver
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Driver
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+Passenger
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="initial-purpose-of-traffic-stop-by-drivers-sex-race-and-ethnicity" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Initial Purpose of Traffic Stop by Drivers Sex Race and Ethnicity</h3>
+<p>This dataset contains data on the initial purpose of traffic stops, broken down by sex, race, and ethnicity.
+Observations: 46
+Variables:12
+The table <a href="introduction.html#tab:Table-Traffic-Stop-2">3.3</a> is the quite the same as the table <a href="introduction.html#tab:Table-Traffic-Stop">3.2</a>, but we have the purpose of each crime.</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:Table-Traffic-Stop-2">Table 3.3: </span>Table Traffic stop 2
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:left;">
+Purpose
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+White
+</th>
+<th style="text-align:right;">
+Black
+</th>
+<th style="text-align:right;">
+Native American
+</th>
+<th style="text-align:right;">
+Asian
+</th>
+<th style="text-align:right;">
+Other
+</th>
+<th style="text-align:right;">
+Hispanic
+</th>
+<th style="text-align:right;">
+Non Hispanic
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:left;">
+Vehicle Regulatory Violation
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+429
+</td>
+<td style="text-align:right;">
+181
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+603
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Vehicle Regulatory Violation
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+505
+</td>
+<td style="text-align:right;">
+242
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+733
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Stop Light/Sign Violation
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+219
+</td>
+<td style="text-align:right;">
+53
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+285
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Investigation
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+84
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:left;">
+Safe Movement Violation
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+194
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="police-arrests-made" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Police Arrests Made</h3>
+<p>This dataset contains arrests made by the Chapel Hill Police Department. Multiple individuals may have been arrested under the same arrest number during related incidents or arrests. Data available since January 1, 2010 and updated quarterly.
+Observations: 16040
+Variables: 12</p>
+<p>There are all the arrests from 2010 to 2019. We take into account the 8 variables that you can see in the table <a href="introduction.html#tab:Table-Police-Arrest-Made">3.4</a>,</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:Table-Police-Arrest-Made">Table 3.4: </span>Report of the criminal
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date of Arrest
+</th>
+<th style="text-align:left;">
+Primary Charge
+</th>
+<th style="text-align:right;">
+Arrestee’s Age
+</th>
+<th style="text-align:left;">
+Arrestee’s Race
+</th>
+<th style="text-align:left;">
+Arrestee’s Gender
+</th>
+<th style="text-align:left;">
+Type of Arrest
+</th>
+<th style="text-align:left;">
+Drugs or Alcohol Present
+</th>
+<th style="text-align:left;">
+Weapon Present
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2010-01-01
+</td>
+<td style="text-align:left;">
+UNDERAGE POSSESSION
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+W
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+SUMMONED/CITED
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2010-01-01
+</td>
+<td style="text-align:left;">
+FAIL TO APPEAR/COMPL
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+W
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+TAKEN INTO CUSTODY (WARRANT/LP)
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2010-01-01
+</td>
+<td style="text-align:left;">
+RESISTING ARREST
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+W
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+ON VIEW
+</td>
+<td style="text-align:left;">
+U
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2010-01-01
+</td>
+<td style="text-align:left;">
+BURGLARY-1ST DEGREE
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+TAKEN INTO CUSTODY (WARRANT/LP)
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2010-01-05
+</td>
+<td style="text-align:left;">
+MISUSE OF PUBLIC SEATING
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:left;">
+W
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+SUMMONED/CITED
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="police-employee-demographics" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> Police Employee Demographics</h3>
+<p>This dataset contains demographics information for employees of the Chapel Hill Police Department. Current as of October 2016.
+Observations: 174
+Variables: 7</p>
+<p>In the table <a href="introduction.html#tab:Table-Police-Employee-Demographics">3.5</a>,</p>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:Table-Police-Employee-Demographics">Table 3.5: </span>Employee Demographics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Job Class Description
+</th>
+<th style="text-align:left;">
+Status
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:right;">
+Service Years
+</th>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:left;">
+Race
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+POLICE OFFICER IV
+</td>
+<td style="text-align:left;">
+Full Time
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+W
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+POLICE OFFICER IV
+</td>
+<td style="text-align:left;">
+Full Time
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+W
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+POLICE OFFICER IV
+</td>
+<td style="text-align:left;">
+Full Time
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+W
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RELIEF PARKING LOT ATT
+</td>
+<td style="text-align:left;">
+Part Time
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+B
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RELIEF PARKING LOT ATT
+</td>
+<td style="text-align:left;">
+Part Time
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+B
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="exploration-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modeling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

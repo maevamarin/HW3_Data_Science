@@ -1,0 +1,410 @@
+
+# Exploration analysis
+
+In order to have a global overview about our table, we are going to have a zoom on each differents table.
+
+
+## Traffic data
+ 
+In order to better understand the dataset of car arrestation, we want to know what type of arrest prevails per year \@ref(fig:Traffic-stop).
+
+The strict majority among categories is speed limit violation, which overpass 4'000 arrestations per year, in both 2014 and 2015, and whose gender proportion approximate a 55%-45%. Speed violation is a daily risk for drivers, whether it is done voluntary or not and for this reason speed violation was an easy bet as the first cause of verbalization. 
+
+
+The second and third causes of arrest concerned violation of vehicle regulations or equipment regulations. Which is interesting to note here is that the first causes of arrests, whose number of occurences exploded in 2014 and 2015, concerns a behavioral cause. Other behavioral causes are fewly reported: (safe or other) movement violations, driving whiled impaired, etc. Offensive or violent behaviors are not significantly represented here other than potentially trhough speed violation which, as we previously said, could be unwanted.
+
+
+```{r Traffic-stop, fig.cap="The higer purpose is the speef of limit",fig.align='center', warning=FALSE, message=FALSE, echo = FALSE}
+
+Traffic_stop_2<-Traffic_stop_2 %>% filter(Purpose != "Total" & Purpose != "FemaleTotal" & Purpose != "MaleTotal")
+
+ggplot(Traffic_stop_2, aes(x=Purpose, y= Traffic_stop_2$`Total By Ethnicity`, fill= Gender)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Year) +
+  labs(title = "The main purpose is the speed limit violation" ,subtitle = "for the year 2014-2015", x= "Purpose", y= "Total stop by race")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+In Figure \@ref(fig:Traffic-Ratio-Black-White), if the bar is higher than 50%, it mean that more black are arrested and inversely. We note that for the purpose "Investigation", more black are arrested for the both year and independig of  the genre of the person. Driving while impaired concern more the black male people.The most striking information is the ratio is the highest for investigation. In other words, for each 10 white citizen arrested for investigation, whatever the gender is, at least 16 black persons already have been arrested. Those 60% of difference between those two races clearly signifies a causal disproportion. However, narrowing down the specific cause of it is impossible and is not part of the present work. 
+
+The reader has to keep in mind the black inhabitants' proportion in demographics dated 2010 in Chapel Hill (10%) and our extrapolation: (+/- 1.2%) per year, with respect to the whole population. The present arrestees sample is absolutely not representative of our population, even if estimated.
+
+
+```{r Traffic-Ratio-Black-White, fig.cap="More black are arrested",fig.align='center', warning=FALSE, message=FALSE, echo = FALSE}
+
+ Traffic_stop_2 <- Traffic_stop_2 %>% mutate(Pro_Black_white = Black/White)
+ Traffic_stop_2$Pro_Black_white[is.nan(Traffic_stop_2$Pro_Black_white)]<-0
+ 
+ 
+Traffic_stop_2 %>% group_by(Purpose, Gender) %>%
+ggplot(aes(x= reorder(Purpose,Traffic_stop_2$Pro_Black_white) , y= Traffic_stop_2$Pro_Black_white)) +
+  geom_bar(stat = "identity") +
+  facet_grid(Gender~Year) +
+  labs(title = "More black arrested for the investigation purpose" ,subtitle = "for the year 2014-2015", x= "Purpose", y= "Ratio Black/White")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+   scale_y_continuous(labels = scales::percent) +
+  theme( strip.background  = element_blank(),
+                      panel.grid.major = element_line(colour = "black"),
+                      panel.border = element_blank(),
+                      axis.ticks = element_blank(),
+                      panel.grid.minor.x=element_blank(),
+                      panel.grid.major.x=element_blank() )
+
+```
+
+## Police arrested made.
+
+Now we're going to look at the arrest data from 2010 to 2019.
+
+
+In Figures \@ref(fig:Police-arrested-made-Black-White-month) and \@ref(fig:Police-arrested-made-Black-White-year), we observe that from 2015, the number of arrestation for black people increase.
+
+The below figures shows the number of arrestation by race and we note the equivalent proportion of black and white arestees. However, if we confront this information with the socio-demographic data of White Chapel in 2010, the black population represented only 9.9%. According to the data of [2020 World Population by Country(updated daily)] (https://worldpopulationreview.com/) displaying the population of Chapel Hill and its population growth, the population growth between 2010 and 2018 was 6.24 %, so let's assume that the population of black people increased by the same percentage, and the variation would be +/- 6.24 [0% or 12.48%.] It would lead that in 2018, on year before our data, we should have 10.5% of black people in White Chapel Hill or a percentage included in [9.9% ; 11.17%]. Here, if we had to respect the proportion in the arrestee sample according to the white people number of arestee, should be around 386 black arestee, in order to be representative of the whole population. 3'651 black arrestees represent 945% of this extrapolation.
+
+Since 2015, the trend is inverted and black people are sometimes more arrested than white people. Sometimes, the difference is shocking, for instance in March-April and July-August 2016 or June-July 2018. These differences are peaks that could be related to the meeting and strikes related to black shooting occuring in the year and to repeal a a law (HB2), as those articles relate to following article [ @Newobserver, title "Hundreds block downtown Chapel Hill to protest state’s HB2 law"]
+
+
+We do neglect the possibility that mass movements could as well explain unusual peaks. However, as we mentioned earlier, the inverted trend is significantly verified in 2017, where white arrestees were a majority only during two first months. This fact could not be explained by mass movements.
+
+```{r Police-arrested-made-Black-White-month, fig.cap="Evolution of the number of arrestation by month",fig.align='center', warning=FALSE, message=FALSE, echo = FALSE}
+
+Police_arrest_made= Police_arrest_made %>% 
+                      mutate(month=month(`Date of Arrest`),year=year(`Date of Arrest`))
+
+
+Police_arrest_made %>% 
+count(`Arrestee's Race`, month, year) %>%
+ggplot(aes(x=month,y=n)) +
+  geom_line(size=1, aes(color=`Arrestee's Race`)) +
+  geom_point(aes(color=`Arrestee's Race`)) +
+  facet_grid(~year) +
+  stat_summary(fun.y = diff, geom = "bar") +
+  theme(legend.position ="bottom")  +
+  scale_x_continuous( breaks = c(1, 6, 12))+
+  labs(
+    title = "Number of arrestation by month",
+    x= "Time",
+    y="Number of arrestation"
+  )
+
+```
+
+
+
+```{r Police-arrested-made-Black-White-year, fig.cap="Evolution of the number of arrestation by year",fig.align='center', warning=FALSE, message=FALSE, echo = FALSE}
+##Same plot as before, but only considering the year and not the month
+
+
+Police_arrest_made %>%
+count(`Arrestee's Race`, year,) %>%
+ggplot(aes(x=year,y=n)) +
+  geom_line(size=1, aes(color=`Arrestee's Race`)) +
+  geom_point(aes(color=`Arrestee's Race`)) +
+  stat_summary(fun.y = diff, geom = "bar") +
+  theme(legend.position ="bottom")  +
+   scale_x_continuous( breaks = seq(2010,2019,by=1))+
+  labs(
+    title = "Number of arrestation by year",
+    x= "Time",
+    y="Number of arrestation"
+  )
+
+ 
+```
+
+
+Investigating the arrestees gender, we observed, in the figure \@ref(fig:Arrestation-Male-Female-Black-White), that the number of men is in average 3 times the number of arrested women, both races combined. The male arrestees number remains above the 600 for white and for black (except in 2012, around 580) from 2010 to 2015. Until that date, Black arrestees' number belongs to an approximate interval of [580;800], with a high increase between 2012-2015 (approx. +35%). White arrestees belongs to the interval [600:800]. Both races decreases tremendously afterwards, but the black community always remains higher of +50 numbers of arrestees in average, which denotes well the disparity among races.
+
+In 2015, some institutional policy must have been applied to decrease the number of arrestee preventively or punishingly because the number of arrestees has decreased for both white and black citizens. The trend of a decrease in the number of arrestees is observed one year later for women: in 2016. Women arrestees number is quite stable, oscillating in an interval of [100;200] for white women and [50;150]
+
+
+
+```{r Arrestation-Male-Female-Black-White, fig.cap="Evolution of the number of arrestation between male and female",fig.align='center', warning=FALSE, message=FALSE, echo = FALSE}
+
+Police_arrest_made %>%
+  count(`Arrestee's Race`, `Arrestee's Gender`, year) %>%
+  filter(!is.na(`Arrestee's Race`)) %>%
+  ggplot(aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's Race`)) +
+  geom_line() +
+  facet_grid(~`Arrestee's Gender`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "Higher number of arrestation for male people",
+       subtitle = "Most of the time: white arrested = female, black arrested = Male",
+       x= "Time",
+       y="Number of arrestation"
+       ) +
+  scale_x_continuous( breaks = seq(2010,2019,by=1))
+```
+
+
+The age and the race would complete the profile of our arrestees. White arrestees are slightly younger (27-28 yo)  considering the median than black people (34-35yo), Even the 1rst and 3rd modes are present a difference of about 5 years, making black arestees older. And we note that the mean age of black arrestee  in slightly superior to the white arestee mean age. The mean ages are respectedly 33 years for black people and 25 for white people, as observed in the figure \@ref(fig:Arrestation-age).
+
+
+```{r Arrestation-age, fig.cap="Age of the arrested people related to the race", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+## Arrestation Age by ethnicity
+
+
+Police_arrest_made%>%
+  ggplot(aes(x=`Arrestee's Race`,y= `Arrestee's Age`, color=`Arrestee's Race` ))+
+  geom_boxplot() +
+  facet_grid(~`Arrestee's Gender`)+
+  labs (
+    title = "Median age higher for the black people",
+    subtitle = "Arrested pepople between 2010 and 2019",
+    x= "Arrestee's Race",
+    y= "Age"
+      )
+```
+
+
+
+We would now consider the type of arrestation \@ref(fig:Arrestation-type-arrestation).Black arestees have more chance to be taken into custody than white people (until 2 times, in 2011). The difference in proportion of race pu into cuatody remains quite stable, each year verifying the schocking gap between white and black arrestees taken into custody.
+ 
+Since 2012, the black proportion of peolple summoned or cited increased  to reach 300 arrestees per year, in 2015 and 2016. The curve for white arrestees depicts a yearly decrease in the number of white arrestees, starting in 2010 with a number higher than 400, reaching a flat stage for about 3 years (2012-2015) and the decreased has accelerated since this moment. However, we not that in this category as well, the curves of respectively black and white people arrested has become mixed for the past 5 years, making this sample as well not representative for the entire population. 
+
+The same comment could be made for arrestees on view, with a tinier gap between white and black people, but always at the cost of black persons.
+
+```{r Arrestation-type-arrestation, fig.cap="Number of arrestation separeted by type and race", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+##Analyze the type of arrestation taking into account the race
+
+Police_arrest_made %>%
+  count(`Arrestee's Race`, `Type of Arrest`, year)%>%
+  filter(!is.na(`Type of Arrest`)) %>%
+  ggplot(aes(x=year,y=n, fill= factor(`Arrestee's Race`), col= `Arrestee's Race`)) +
+  geom_line() +
+  facet_grid(~`Type of Arrest`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "The race could be use as a proxy of the type of arrestation",
+       subtitle = "White people = On viw and cited, black people= Taken into custody",
+       x= "Time",
+       y="Number of arrestation") +
+  scale_x_continuous( breaks = seq(2010,2019,by=1))
+
+
+## Iegor, comment écire le texte en entier en haut?
+
+```
+
+
+## Incident reports
+ In Figure \@ref(fig:Victim-distribution), there is a huge difference  the race of the victim. But we notice that the victim are either male either female.As a first step we can conclude that the gender isn't a determinant factor to determine a victim, but the race seems a signifcant variable.
+
+```{r Victim-distribution, fig.cap="Distribution about the type of the victim", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+Incident_reports= Incident_reports %>%
+                  mutate(month=month(`Date of Occurrence`), year= year(`Date of Occurrence`))
+
+Incident_reports %>%
+  filter(year>=2010) %>%
+  count(`Victim Race`, `Victim Gender` , year) %>%
+  filter(`Victim Gender`!="NA") %>%
+  ggplot(aes(x=year,y=n, fill= factor(`Victim Race`), col= `Victim Race`)) +
+  geom_line() +
+  facet_grid(~`Victim Gender`)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(title = "White people are the major victim ",
+       subtitle = "No significant differenent between the gender",
+       x= "Date",
+       y="Number of Victim") +
+  scale_x_continuous( breaks = seq(2010,2019,by=1))
+```
+
+
+ In the figure \@ref(fig:Victim_distribution), we would like to know if there is a difference in process time for registering the complaint and the the arrestation process among race of victims. Even if there are some variations depending on the complexity of the case and the inherent time of investigation depending on the type of case, variation we cannot control, it would be interesting if there are anyway a global difference since our panel of 82'525 observations would somehow pool this variance.
+
+
+Now that we know the distribution of victims, it would be interesting to know what type of crime it is. Therefore, in table \@ref(fig:Victim-crime) , we can see that the majority of the crimes in question are crimes involving theft.And the two others majoritary crime are "misc officier in" and "domestic distur".
+
+
+```{r Victim-crime, fig.cap="Distribution about the type of the victim", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+Incident_reports %>%
+  group_by(`Reported As`) %>%
+  count(`Reported As`,`Victim Race`,`Victim Gender`) %>%
+  arrange(desc(n)) %>%
+  rename("Number of victim"=n) %>%
+  na.omit() %>%
+  head(10) %>%
+   kable(
+    caption= "Purpose of the crime", digits=2) %>%
+  kable_styling(
+    bootstrap_options = "striped"
+    ) 
+
+
+```
+
+
+Outliers are the typical cases showing this uncontrollable variation, we would neglect them and filter our dataset to observe only the delays inferior to 2000 days (more than 3 years). We observe that the time dedicated to investigation and arrestation for cases of white people is slightly higher than this time for black people. We would discard the assumption of a negligence in the treatment of cases related to black people.
+
+```{r delay-occurence-report, fig.cap="Bloxplot about the delay between the occurence and the report", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+Incident_reports%>%
+  group_by(`Victim Race`)  %>%
+  mutate(DELAYReported = `Date of Report`- `Date of Occurrence`, DELAYArrested = `Date Found`- `Date of Occurrence`) %>%
+  filter( DELAYArrested < 20000 & DELAYArrested > 100) %>%
+  ggplot(aes( `Victim Race`, DELAYArrested )) +
+  geom_boxplot() +
+  labs(
+    title = "Higher delay between the occurence and the date of the report for the black race",
+    subtitle = "More outliers for the white race",
+    y="Delay between the occurence and the report"
+  )
+
+
+
+```
+
+##Employee demographics
+
+We would like to know the proportion of the ethnicities among police officers. We have 128 white people (73.6%), three times less of black persons (24.1%) and 3 hispanic person (2.1%).
+
+The majority of the employee are white male people as we observe in the figure \@ref(fig:distribution-employee). This distribution is captured in the current year of 2016.
+
+```{r distribution-employee, fig.cap="Distribution of the employee", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+##Employee demographics in the current of october 2016
+
+
+
+Employee_demographics %>% 
+  count(Gender,Race) %>%
+  ggplot(aes(x=Race,y=n)) +
+  geom_bar(stat = "identity") +
+  facet_grid(~Gender)+
+  theme(legend.position ="bottom") +
+  theme(legend.key.size = unit(0.5, "cm"))  +
+  labs(
+    title = "Majority of white employee",
+    subtitle = "Current of the year 2016",
+    x= "Race",
+    y="Number of employee"
+    ) 
+
+
+
+```
+
+Looking at the distribution of the job class in the figure \@ref(fig:distribution-employee), we note that mostly all the police function is attribute to white male people.It is an interesting point for further analysis. After simple computation, we knew that 24.1% of the CHPD were black and no black officers is present in our panel.
+
+```{r distribution-job-employee, fig.cap="Distribution of the job", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+Employee_demographics %>%
+  group_by(`Job Class Description`) %>%
+  count(`Job Class Description`, Gender, Race) %>% 
+  arrange(desc(n)) %>%
+  rename("Number of employee"=n)%>%
+  head(7) %>%
+  kable(
+    caption= "Profession of the police officers by frequency", digits=2) %>%
+  kable_styling(
+    bootstrap_options = "striped"
+    ) 
+
+
+```
+
+
+We found interesting  to focus on the job class what are in the field or in the hierarchy of those job classes, with regards to the aim of our project. We filtered thus Job Classes Despcription to obtain a subset including: "POLICE OFFICER I", "POLICE OFFICER II",  "POLICE OFFICER III","POLICE OFFICER IV", "POLICE SERGEANT", "POLICE CAPTAIN", "POLICE CHEF", "POLICE LIEUTENANT", "POLICE CHEF-ASSISTANT".
+
+According to some studies run in the field, a chronic stress caused by police work is an explaination of the use of extralegal force [see @Griffin2003, pp.3--21]. In order to set this assumption, we run two investigations: Figure  \@ref(fig:distribution-serviceyear) depicts the modes of the service lengths among genders, for the job cited right above. We observe that the service length is slightly longer for men than for women. The median ongoing career length for men is 15 years, whereas the women's is approximatively 6 years shorter (-40%). Even if newcomers lower the ongoing service length, such as the outlier in men's category, we observe that men are thus exposed on a longer period to a chronic stress, which is inherent to the job of police officer [More into details @Purba2019]
+
+
+
+```{r distribution-serviceyear, fig.cap="Distribution of the police job", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+
+Employee_demographics %>%
+   filter( `Job Class Description` == c("POLICE OFFICER I", "POLICE OFFICER II",  "POLICE OFFICER III","POLICE OFFICER IV", "POLICE               SERGEANT", "POLICE CAPTAIN", "POLICE CHEF", "POLICE LIEUTENANT", "POLICE CHEF-ASSISTANT")) %>%
+  group_by(Gender) %>%
+  ggplot(aes(Gender,`Service Years`, color= Gender)) +
+  geom_boxplot() +
+  labs(
+    title = "Women's service is shorter than the men: men's career are almost quite the double",
+    subtitle = "Glimpse of the service length in the Chapel Hill Police District among gender",
+    x = "Police officers' gender",
+    y = "Service length",
+    caption = "data from Employee_demographics.csv",
+    col = "Gender")
+
+
+```
+
+
+Considering now the gender among all categories of job classes, we  observe that the police officers are mostly male teams, \@ref(fig:distribution-serviceyear). Out of the four grades, there are only 4 women. Women occupy mostly administrative jobs, not linked to the process nor decision making about arrestation. In this way, we can keep in mind that our analysis would focus mainly on male officers.
+
+
+```{r distribution-serviceyear-employee, fig.cap="Distribution of the job by gender", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+#Comupting the mean for the next plot
+meanM<- Employee_demographics%>%
+  group_by(Gender) %>%
+  summarize(mean_service = mean(`Service Years`))
+
+Employee_demographics %>%
+  ggplot(aes(`Job Class Description`,`Service Years`)) + 
+  geom_point(aes(color = Gender)) +
+  geom_hline(yintercept = 14.24603, color = "darkblue") +
+  geom_hline(yintercept = 12.02083, color = "pink") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size =6)) +
+   labs(
+     title = "Female gendre are more likely to be in administrative positions",
+     subtitle = "The average service is slighty longer for men",
+     caption = "Employee_demographics.csv",
+     y="Year of service"
+     )
+
+```
+
+In order to contextualize this information, we had to know when those police officers started their career. We computed easily the age of enrollment, which  is the result of their age minus their service length. The age at which the officers began their career is an important important information, because the  young people are more mentally vulnerable than older ones (Thomas et al., 2016). Starting one's career at a young age and being exposed to a chronic stress and traumatic events have more impact on the subject due to one's age. 
+
+Among filtered job categories, the starting age is under 30 years old in average, as we observe in the \@ref(fig:distribution-serviceyear). All officiers were thus early exposed to chronic stress, and more longer if they gained grades. The hierarchy cumulate more years of experience, between 16 years  old for the sergeant to 19 for the captain. It is intuitive because of the system of reward and the legitimization to obtain this position: the contrary would have been surprising.The hierarchy is not necessarily playing a direct role in the field. Yet, they give orders and guidelines to the police officers, installing a certain culture and mindset to the troops. 
+Police officers' starting age takes part in the same interval than for their superior : between 25 and 30 years old. We have two police officers above this age, what could be explain by either a late career or a change in district. Howver, it seems that to reach the fourth level in police officer scale, the experience is a necessary element. Those policemens do not have less than 13 years old of experience, which is a large amount of time spent, by assumption, in streets and on missions.
+
+For now, we have to ascertain if only those job classes follow the trend of young enrollment or if it is a general tendancy respected by all the human ressources of the CHPD.
+
+```{r distribution-serviceyear-2, fig.cap="Distribution of the job by gender", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+
+
+Employee_demographics %>%
+  filter( `Job Class Description` == c("POLICE OFFICER I", "POLICE OFFICER II",  "POLICE OFFICER III","POLICE OFFICER IV", "POLICE                    SERGEANT", "POLICE CAPTAIN", "POLICE CHEF", "POLICE LIEUTENANT", "POLICE CHEF-ASSISTANT")) %>%
+  mutate(AGEBEGINNING = Age - `Service Years`) %>%
+  ggplot(aes( x = `Job Class Description`, y = AGEBEGINNING,color = `Job Class Description`))+
+  geom_boxplot() +
+  labs(
+    title = "Beyond the early age of enrollment among classes, we note that Police officer's \ngrade is based on service length",
+    subtitle = "Age of enrollment and service length per job class in CHPD",
+    x = "Job Class",
+    y = "Age of enrollment",
+    caption = "data from Employee_demographics.csv")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+```
+
+
+\@ref(fig:distribution-serviceyear-race)
+
+
+
+```{r distribution-serviceyear-race, fig.cap="Distribution of the job by race", fig.align='center',warning=FALSE, message=FALSE, echo = FALSE}
+ #Computing the mean service length per race
+
+Employee_demographics %>%
+  ggplot(aes(`Job Class Description`,`Service Years`)) + 
+  geom_point(aes(color = Race)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size =6)) +
+   labs(
+     title = "Race white have in genreal an higher year service",
+     caption = "Employee_demographics.csv",
+     y="Year of service"
+     )
+ 
+```
+
+
+
