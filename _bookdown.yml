@@ -8,6 +8,6 @@ rmd_files: [
   "report/Introduction.Rmd",
   "report/Exploration_analysis.Rmd",
   "report/Modeling.Rmd",
-  "report/references.Rmd",
-  "report/conclusion.Rmd"
+  "report/conclusion.Rmd",
+  "report/references.Rmd"
 ]

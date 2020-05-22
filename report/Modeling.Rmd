@@ -22,7 +22,10 @@ Once the exploration analysis done, we pursue with the modelization of the profi
 
 We would first build the model for arrestee’s profile. In order to do so, we use the General Linear Model to shape our dependent variable, the number of arrestation, explain by our independent variables: the age, race and gender of the arrestee and if it was under the influence of drugs and alcool. We use dummy variables to better understand the impact of the outcomes.
 ```{r model_arrestation}
-model = glm(arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present` , data= Arrestation)
+model <- glm(
+  arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present`,
+  data = Arrestation
+)
 ```
 
 We observe that ceteris paribus, approximatively 49 arrestations (intercept) would be done in our reference case as we could observe in the table \@ref(tab:Table-estimate). The reference case is the average of possibility between all combinations possible with our variable references and here, since we have dummy variables, it encompasses  the lowest probable profile of arrestees: black women. This reference level gives the irreductible number of arrestations the Chapel Hill Police District would operate for this category per XXX. 
@@ -307,4 +310,47 @@ augment_model_victim %>% ggplot() +
 
 ```
 
+
+Finally, because no variable concerning the arrestee's race was significant, we would now see with a machine learning process if the black box is able to well predict the skin color of the person arrested.
+
+If the process succeeds, then there would be an evidence that black or white race might have an affect on arrestation in the District of Chapel Hill because they can be predicted by the variables we selected for the model: the characteristics of the arrestations would be a key factor to forecast the skin color of the arrestee.
+
+If not, then our data base does not allow us to demonstrate any bias in the judicial system of a county if ad only if our samples are respresentative  of our population. If this is not the case, then further investigation have be done in order to minimize the sampling bias we face here.
+
+So, we filtered again the data to have only black and white arrestees and mutate all the character variables as factors, so as to be handled by the functions, which require factors only. We proceed to a sammpling for having a training and a test sets with which we would train and verify the analytical process.
+
+This one is a Random Forest: Through a multiplicity of random samples we did before: our model has to predict the race pf arrestees with respect of the characteristics of the observations included in the samples. By computing an average of their results, we determine the model's ability to predict.
+
+We have to look at the sensitivity (ability to predict true positive, here black people) and specificity (ability to predict true negative, here whites), as well the accuracy: if our model well predicts in average the outcome. Here, the accuracy is a little bit better than hazard (0.6611 against 0.5, considered here as hazard since we have only two outcomes). The sensitivity (.7560) is quite high but specificity is low (.5578). Our model predicts well black but have more difficulty to predict white, which was the issue we faced with our other two models: the white race level is non-significant.
+
+Again, the model 
+
+
+```{r Prediction-model-race, fig.cap="Race prediction model", warning=FALSE, message=FALSE, echo = FALSE}
+## Create the training/test set after modfying the data
+library(randomForest)
+library(tidyverse)
+library(janitor)
+library(caret)
+
+PAM <- Police_arrest_made %>%
+  clean_names() %>%
+  filter(arrestees_race == c("Black","White")) %>%
+  mutate(arrestees_race =if_else(arrestees_race == "Black", "Black", "White", missing = NA_character_) %>% factor()) %>%
+  na.omit() %>% 
+  select(arrestees_race, arrestees_age, type_of_arrest, drugs_or_alcohol_present, weapon_present) %>%
+  mutate_if(is.character, as.factor)
+  
+set.seed(123)
+index.tr <- c(sample(1:100, replace=FALSE, size=65),100+sample(1:100, replace=FALSE, size=65),200+sample(1:100, replace=FALSE, size=65))
+
+arrest.tr <- PAM[index.tr,]
+arrest.te <- PAM[-index.tr,]
+# creation of the random forest model
+mod.rf <- randomForest(formula = arrestees_race ~ arrestees_age + type_of_arrest + drugs_or_alcohol_present + weapon_present,
+                       data = PAM)
+# using the test set to see is good or not
+pred.te <- predict(mod.rf, newdata=arrest.te, type="class")
+confusionMatrix(data=pred.te, reference = arrest.te$arrestees_race) 
+````
 
