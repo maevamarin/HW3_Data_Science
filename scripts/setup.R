@@ -8,8 +8,9 @@ packages <- c(
   "tidyverse", "lubridate", # for wrangling
   "modelr", "broom", # for modeling
   "ggrepel", "gghighlight", "patchwork", "maps", # for plotting
-  "knitr", "kableExtra", "bookdown", "rmarkdown" # for the report
-)
+  "knitr", "kableExtra", "bookdown", "rmarkdown", # for the report
+  "randomForest","janitor","caret" )
+
 purrr::walk(packages, library, character.only = TRUE)
 
 # automatically create a bib database for R packages

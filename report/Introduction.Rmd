@@ -2,13 +2,6 @@
 
 ## Overview and Motivation
 
-Provide an overview of the project goals and the motivation for it. Consider that this will be read by people who did not see your project proposal.
-
-Related Work: Anything that inspired you, such as a paper, a website, or something we discussed in class.
-
-Initial Questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
-
-
 Our motivation is to work on the characteristics explaining crime and (im)partiality of the American judicial system applied. In addition to shootings on public places, cliché rift between black/white people often agitates news and press and stirs up American society. For this project we will use data from Chapel Hill Open Data, which is about the crime in this sate.
 
 By using the CHPD database, far from finding a universal answer applicable to the United States of America in a whole because our sample does not allow us to do so, we have the possibility of considering the socio-demographic characteristics of offenders and police officers over a defined period and time span in order to check whether the clichés of the cleavage can be confirmed or refuted. The use of this database potentially allows us to identify some potentially significant correlations between factors of delinquency or bias among police officers
@@ -16,7 +9,6 @@ By using the CHPD database, far from finding a universal answer applicable to th
 Our goal is to find some significant correlation between the variables in order to profile the different offenders and see if these profiles infer with the typical characteristics of police profiles. 
 Does the concentration of police officer profiles have a link with the profiles of offenders, the offences committed or the satisfaction of the population with the service they receive from the police?
 From sociodemographic of the people arrested do stem some insight on some contributing factors of arrestation among a certain type of population or a precise distribution of delinquency among the socio demographics?
-
 
 
 ## The data
@@ -38,10 +30,9 @@ Incident_reports <-  read_delim("data/police-incident-reports-written.csv",";", 
 
 As mentioned above ,for this assignement we use then Chapel Hill Crime and Police Data.
 
-These sets of datasets will focus on datasets gathered from Chapel Hill Open Data, which is managed and run by the town of chapel hill. This readme is a compilation of information that represents what each file will be about. Most of the datasets can be understood by reading the summary page from the Chapel Hill Open Data website.(https://www.chapelhillopendata.org/explore/?sort=modified&refine.keyword=Police)
-We are going to use four differents tables.
+These sets of datasets will focus on datasets gathered from Chapel Hill Open Data, which is managed and run by the town of chapel hill. This readme is a compilation of information that represents what each file will be about. Most of the datasets can be understood by reading the summary page from the Chapel Hill Open Data [website](https://www.chapelhillopendata.org/explore/?sort=modified&refine.keyword=Police)
 
-We didn't have to do any data cleansing. We just renamed the names of a few observations so that the reader could understand what they were about.
+We are going to use four differents tables. We didn't have to do any data cleansing. We just renamed the names of a few observations so that the reader could understand what they were about.
 
 
 ### Police Incidents Reports Written
@@ -145,6 +136,8 @@ Employee_demographics %>%
   mutate(`Arrestee's Gender`=fct_collapse(`Arrestee's Gender`,
         "Female"="F",
         "Male"="M")) %>%
+  mutate(`Type of Arrest`=fct_collapse(`Type of Arrest`,
+         "TAKEN INTO CUSTODY"="TAKEN INTO CUSTODY (WARRANT/LP)")) %>%
   filter(`Arrestee's Race`=="Black" | `Arrestee's Race` == "White")
 
   
