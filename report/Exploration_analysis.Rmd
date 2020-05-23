@@ -17,7 +17,7 @@ We would like to know the proportion of the ethnicities among police officers an
 
 Employee_demographics %>% 
   count(Gender,Race) %>%
-  ggplot(aes(x=Race,y=n)) +
+  ggplot(aes(x=Race,y=n, fill= Race)) +
   geom_bar(stat = "identity") +
   facet_grid(~Gender)+
   theme(legend.position ="bottom") +

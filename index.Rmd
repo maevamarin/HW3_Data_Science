@@ -1,5 +1,5 @@
 --- 
-title: "Project Assignment"
+title: "An attempt to find a judicial racial bias in arrestees"
 author: "Eugénie Mathieu, Maeva Marin"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 site: bookdown::bookdown_site

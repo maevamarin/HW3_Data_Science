@@ -2,7 +2,7 @@
 
 ## Overview and Motivation
 
-Our motivation is to work on the characteristics explaining crime and (im)partiality of the American judicial system applied. In addition to shootings on public places, cliché rift between black/white people often agitates news and press and stirs up American society. For this project we will use data from Chapel Hill Open Data, which is about the crime in this sate.
+Our motivation is to work on the characteristics explaining crime and (im)partiality of the American judicial system applied. In addition to shootings on public places, cliché rift between black/white people often agitates news and press and stirs up American society. For this project we will use data from Chapel Hill Open Data, which is about the crime in this state
 
 By using the CHPD database, far from finding a universal answer applicable to the United States of America in a whole because our sample does not allow us to do so, we have the possibility of considering the socio-demographic characteristics of offenders and police officers over a defined period and time span in order to check whether the clichés of the cleavage can be confirmed or refuted. The use of this database potentially allows us to identify some potentially significant correlations between factors of delinquency or bias among police officers
 
@@ -78,7 +78,7 @@ The table \@ref(tab:Table-Traffic-Stop-2) is the quite the same as the table \@r
 
 ```{r Table-Traffic-Stop-2, warning=FALSE, message=FALSE, echo = FALSE}
 Traffic_stop_2 %>%
-  select(-`Total By Race`,-`Total By Ethnicity`) %>%
+  select(Year,Purpose,Gender,White,Black) %>%
   head(5) %>%
     kable(caption= "Table Traffic stop 2", digits=2) %>%
   kable_styling(bootstrap_options = "striped")
