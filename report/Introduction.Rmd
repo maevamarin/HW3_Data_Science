@@ -97,11 +97,11 @@ This dataset contains demographics information for employees of the Chapel Hill 
 Observations: 174
 Variables: 7
 
-In the table \@ref(tab:Table-Police-Employee-Demographics), we are going to use the 6 followings variables.
+In the table \@ref(tab:Table-Police-Employee-Demographics), we are going to use the 5 followings variables.
 
 ```{r Table-Police-Employee-Demographics, warning=FALSE, message=FALSE, echo = FALSE}
 Employee_demographics %>%
-  select(-`Officer ED No.`) %>%
+  select(-`Officer ED No.`,-Status) %>%
   head(5) %>%
     kable(caption= "Employee Demographics", digits=2) %>%
   kable_styling(bootstrap_options = "striped")

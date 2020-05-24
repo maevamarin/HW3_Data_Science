@@ -412,7 +412,7 @@ broom::tidy(model_victim_poisson) %>%
 
 ```
 
-Plotting our residuals with a poisson distribution we note that we are pretty good,\@ref(tab:Residuals-victim-poisson).
+Plotting our residuals with a poisson distribution we note that we are pretty good,\@ref(fig:Residuals-victim-poisson)
 
 ```{r Residuals-victim-poisson, fig.cap="Residuals of the models about the model victim", warning=FALSE, message=FALSE, echo = FALSE}
 
