@@ -278,7 +278,7 @@ Victim <- Incident_reports %>%
   summarize(Victim=n())
 
 ```
-Like for the model of the arrestee profile, we improve our modelization by running after a Poisson model below:
+
 
 ```{r model-victim}
 
@@ -313,9 +313,9 @@ broom::tidy(model_victim) %>%
 
 ```
  
- The errors are distributed around zero, leading to low errors scores, satisfying! But some errors remains as outliers, Errors value follow a gaussian distribution here as well, illustrating quite a poisson curve.
+The similar analysis of errors of arrestees could be applied here: error values follow a curve illustrating quite a poisson distribution. 
 
- In Figure \@ref(fig:Residuals-victim), we observe 
+In Figure \@ref(fig:Residuals-victim), residuals are centered around zero, but follow an incresing trend.
 
 ```{r Residuals-victim, fig.cap="Residuals of the models about the model victim", warning=FALSE, message=FALSE, echo = FALSE}
 
@@ -381,7 +381,9 @@ augment_model_victim %>% ggplot() +
 
 ```
 
-Like the model with arrested, we made an error making the assumption that are data follow a normal distribution, but it was not the case as we note obersving the distribution of the data in the figure \@ref(fig:Residuals-model-victim). Therefore, now we assume that our data follow a poisson distribution.
+### With a poisson distribution
+
+Like for the model of the arrestee profile, we improve our modelization by running after a Poisson model below:
 
 
 ```{r model-victim-poisson}
@@ -390,7 +392,8 @@ model_victim_poisson = glm(Victim ~ `Victim Age` + `Victim Gender` + `Victim Rac
 
 ```
 
-Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table \@ref(tab:Table-estimate-victim-poisson). All the variables are significant as in the previsous table with a normal distribution \@ref(tab:Table-estimate-victim). But here, all the variables are significant with 1%, which it was not the case previously. Here the varaibles male is negatively signicant, and before it was positively correlated. 
+
+Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table \@ref(tab:Table-estimate-victim-poisson). All the variables are significant as in the previsous table with a normal distribution \@ref(tab:Table-estimate-victim). But here, all the variables are significant with 0.1%, which it was not the case previously. Here the varaibles male is negatively signicant, and before it was positively correlated. 
 
 It is more correct to use this following  table \@ref(tab:Table-estimate-victim-poisson). 
 
@@ -412,7 +415,13 @@ broom::tidy(model_victim_poisson) %>%
 
 ```
 
-Plotting our residuals with a poisson distribution we note that we are pretty good,\@ref(fig:Residuals-victim-poisson)
+
+
+Plotting our residuals with a Poisson distribution, the Poisson model demonstrates again a better fit to the data. 
+
+The errors are reduced in a smaller interval than the normal residuals and remains low as for the extreme values (i.e. the most typical profiles of person arrested), what the normal distribution struggles to do it.
+
+The improvement we expeccted by using a Poisson distribution is again satisfactory here: \@ref(fig:Residuals-victim-poisson).
 
 ```{r Residuals-victim-poisson, fig.cap="Residuals of the models about the model victim", warning=FALSE, message=FALSE, echo = FALSE}
 

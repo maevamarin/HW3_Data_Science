@@ -150,7 +150,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="modeling.html"><a href="modeling.html#modelling---victim"><i class="fa fa-check"></i><b>3.2</b> Modelling - Victim</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="modeling.html"><a href="modeling.html#with-a-normal-distribution-1"><i class="fa fa-check"></i><b>3.2.1</b> With a normal distribution</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="modeling.html"><a href="modeling.html#classifying"><i class="fa fa-check"></i><b>3.3</b> Classifying</a></li>
+<li class="chapter" data-level="3.3" data-path="modeling.html"><a href="modeling.html#with-a-poisson-distribution-1"><i class="fa fa-check"></i><b>3.3</b> With a poisson distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="modeling.html"><a href="modeling.html#classifying"><i class="fa fa-check"></i><b>3.4</b> Classifying</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>4</b> Conclusion</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -355,10 +356,90 @@ THEFT/LARCENY
 21
 </td>
 <td style="text-align:left;">
-W
+White
 </td>
 <td style="text-align:left;">
-F
+Female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+ADMINISTRATIVE
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+Male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+DISTURBANCE/NUI
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:left;">
+Black
+</td>
+<td style="text-align:left;">
+Female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+2019-06-29
+</td>
+<td style="text-align:left;">
+DAMAGE/VANDALIS
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+Male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-06-28
+</td>
+<td style="text-align:left;">
+2019-06-28
+</td>
+<td style="text-align:left;">
+TRAFFIC/TRANSPO
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+Male
 </td>
 </tr>
 </tbody>
@@ -408,16 +489,16 @@ Weapon Present
 18
 </td>
 <td style="text-align:left;">
-W
+White
 </td>
 <td style="text-align:left;">
-M
+Male
 </td>
 <td style="text-align:left;">
 SUMMONED/CITED
 </td>
 <td style="text-align:left;">
-Y
+Yes
 </td>
 <td style="text-align:left;">
 UNARMED
@@ -431,16 +512,16 @@ UNARMED
 18
 </td>
 <td style="text-align:left;">
-W
+White
 </td>
 <td style="text-align:left;">
-M
+Male
 </td>
 <td style="text-align:left;">
-TAKEN INTO CUSTODY (WARRANT/LP)
+TAKEN INTO CUSTODY
 </td>
 <td style="text-align:left;">
-N
+No
 </td>
 <td style="text-align:left;">
 UNARMED
@@ -454,39 +535,16 @@ UNARMED
 27
 </td>
 <td style="text-align:left;">
-W
+White
 </td>
 <td style="text-align:left;">
-M
+Male
 </td>
 <td style="text-align:left;">
 ON VIEW
 </td>
 <td style="text-align:left;">
-U
-</td>
-<td style="text-align:left;">
-UNARMED
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2010-01-01
-</td>
-<td style="text-align:right;">
-48
-</td>
-<td style="text-align:left;">
-A
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-TAKEN INTO CUSTODY (WARRANT/LP)
-</td>
-<td style="text-align:left;">
-Y
+Unknown
 </td>
 <td style="text-align:left;">
 UNARMED
@@ -500,16 +558,39 @@ UNARMED
 55
 </td>
 <td style="text-align:left;">
-W
+White
 </td>
 <td style="text-align:left;">
-M
+Male
 </td>
 <td style="text-align:left;">
 SUMMONED/CITED
 </td>
 <td style="text-align:left;">
-Y
+Yes
+</td>
+<td style="text-align:left;">
+UNARMED
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2010-01-06
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+ON VIEW
+</td>
+<td style="text-align:left;">
+Yes
 </td>
 <td style="text-align:left;">
 UNARMED
@@ -556,7 +637,7 @@ Black
 Vehicle Regulatory Violation
 </td>
 <td style="text-align:left;">
-F
+Female
 </td>
 <td style="text-align:right;">
 429
@@ -573,7 +654,7 @@ F
 Vehicle Regulatory Violation
 </td>
 <td style="text-align:left;">
-F
+Female
 </td>
 <td style="text-align:right;">
 505
@@ -590,7 +671,7 @@ F
 Stop Light/Sign Violation
 </td>
 <td style="text-align:left;">
-M
+Male
 </td>
 <td style="text-align:right;">
 219
@@ -607,7 +688,7 @@ M
 Investigation
 </td>
 <td style="text-align:left;">
-F
+Female
 </td>
 <td style="text-align:right;">
 64
@@ -624,7 +705,7 @@ F
 Safe Movement Violation
 </td>
 <td style="text-align:left;">
-F
+Female
 </td>
 <td style="text-align:right;">
 140
