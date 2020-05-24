@@ -179,10 +179,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">3.1.1</span> With a normal distribution</h3>
 <p>Once the exploration analysis done, we pursue with the modelization of the profile of our arrestees and victims. As a gentle reminder, the aim of our project is to build the typical profil drawn by the database in order to know whether or not race has a strong influence and thus, to consider if there is objectively a partial legal force.</p>
 <p>We would first build the model for arrestee’s profile. In order to do so, we use the General Linear Model to shape our dependent variable, the number of arrestation, explain by our independent variables: the age, race and gender of the arrestee and if it was under the influence of drugs and alcool. We use dummy variables to better understand the impact of the outcomes.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">glm</span>(</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  arrestation <span class="op">~</span><span class="st"> `</span><span class="dt">Arrestee&#39;s Age</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Drugs or Alcohol Present</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">data =</span> Arrestation</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">)</a></code></pre></div>
 <p>We observe that ceteris paribus, approximatively 49 arrestations (intercept) would be done in our reference case as we could observe in the table <a href="modeling.html#tab:Table-estimate">3.1</a>. The reference case is the average of possibility between all combinations possible with our variable references and here, since we have dummy variables, it encompasses the lowest probable profile of arrestees: black women. This reference level gives the irreductible number of arrestations the Chapel Hill Police District would operate for this category per XXX.</p>
 <p>The arrestee Age has a negative effect: it depicts that higher is the age of the arrestee lower is the probability to encounter this person, since a high age would decrease, ceteris paribus, the number of arrestations in fine by the exact value of the age of the arrestee. This coefficient is significant.</p>
 <p>The other significant coefficients are the gender of the arrestee and the presence of drugs and alcool, the last information is divided into two significant dummy variables. Being a male would higher by almost 29 additional arrestations, ceteris paribus. The male gender has a strong effect: + 58.10% of arrestations.
@@ -470,11 +466,6 @@ Figure 3.3: Prediction
 <div id="with-a-poisson-distribution" class="section level3">
 <h3><span class="header-section-number">3.1.2</span> With a poisson distribution</h3>
 <p>Normal distribution describes continuous data which have a symmetric distribution, with a characteristic ‘bell’ shape, which is not the case in our data, as we observed in the figure <a href="modeling.html#fig:Residuals">3.1</a>. Therefore we made a mistake, therefore in the following part, we are going to use the same model but with a poisson distribution.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">model_poisson &lt;-<span class="st"> </span><span class="kw">glm</span>(</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  arrestation <span class="op">~</span><span class="st"> `</span><span class="dt">Arrestee&#39;s Age</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Drugs or Alcohol Present</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">data =</span> Arrestation, <span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">)</a></code></pre></div>
 <p>We note that all our estimate are significant with 1% except for the variable race as we observe in the table @ref(tab:Table-estimate_poisson).</p>
 <p>We note that with a normal distribution (<a href="modeling.html#tab:Table-estimate">3.1</a>) the sginifcant variables were the same.
 The change is for the intercept, which is slightly smaller than previously, 3.84 instead of 49.24. The effect of the estimate are the same. Ans as previsouly, variable race isn’t significant.</p>
@@ -600,8 +591,8 @@ p.value
 </p>
 </div>
 <p>In the next model, we add the type of arrest and whether the criminal is armed or not, in order to explain our response variable “Arrest”. And this time, we use directly a poisson distribution.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">model_Arrestation_<span class="dv">2</span> =<span class="st"> </span><span class="kw">glm</span>(arrestation <span class="op">~</span><span class="st"> `</span><span class="dt">Arrestee&#39;s Age</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Drugs or Alcohol Present</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Type of Arrest</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Weapon Present</span><span class="st">`</span>,<span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">data=</span> Arrestation_<span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">model_Arrestation_<span class="dv">2</span> =<span class="st"> </span><span class="kw">glm</span>(arrestation <span class="op">~</span><span class="st"> `</span><span class="dt">Arrestee&#39;s Age</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Race</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Arrestee&#39;s Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Drugs or Alcohol Present</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Type of Arrest</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Weapon Present</span><span class="st">`</span>,<span class="dt">family=</span><span class="st">&quot;poisson&quot;</span>, <span class="dt">data=</span> Arrestation_<span class="dv">2</span>)</a></code></pre></div>
 <p>Compare to our previous model with less variables, the significance of the estimate does not change. But we note that the type of arrestation “taken into custody” and being “unarmed” are signidicant with 5%, as we observe in the table <a href="modeling.html#tab:Table-Arrestation-2">3.4</a>.</p>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -1009,8 +1000,6 @@ UNARMED
 <div id="with-a-normal-distribution-1" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> With a normal distribution</h3>
 <p>The second model aims to model the profil of victims. Again, we use a General Linear model to estimate the number of victims by population characteristics per XXXX, by taking into account the age, race and gender of the victims.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">model_victim =<span class="st"> </span><span class="kw">glm</span>(Victim <span class="op">~</span><span class="st"> `</span><span class="dt">Victim Age</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Victim Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Victim Race</span><span class="st">`</span> , <span class="dt">data=</span> Victim)</a></code></pre></div>
 <p>Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table <a href="modeling.html#tab:Table-estimate-victim">3.5</a>. The irreductible number of victime for those population, neglecting the age is approximatively 201 cases (200.56). This number is significant.</p>
 <p>Considering now our variables: The age is negatively correlated with the number of victim by decreasing it with an effect of -2.70! We expect thus a larger number of young victims, since this coefficient is reliable since significant. Being white is risk factor: more victims are white and this is represented by the strong positive effect of the dummy variable, significant as well, called <code>Victim RAce</code>White: +86.79 so additional 87 numbers of victims by comparison to our reference level.</p>
 <p>Here, we have a strong racial effect: black people are less subject to misuse, aggressions, etc. than white people. Our database cannot help any supporting justification with demographics, because it does not contain any data on wealth, privileges, other objective or subjective factors causing people to aggress them.</p>
@@ -1224,26 +1213,24 @@ White
 </tr>
 </tbody>
 </table>
-<p>After removing these extreme values,the error variation is oscillating around zero, <a href="#fig:Residuals-model-victim"><strong>??</strong></a>, following no identifiable pattern: we might say they are randomly distributed. Both initial assumptions are verifies, our model seems to be well-built!!</p>
+<p>After removing these extreme values,the error variation is oscillating around zero, <a href="modeling.html#fig:Residuals-model-victim">3.5</a>, following no identifiable pattern: we might say they are randomly distributed. Both initial assumptions are verifies, our model seems to be well-built!!</p>
 <p>The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation.</p>
-<div class="figure" style="text-align: center">
-<img src="group10_2020_project_files/figure-html/Residuals-model_victim-1.png" alt="Dstribution of the residuals" width="70%" />
+<div class="figure" style="text-align: center"><span id="fig:Residuals-model-victim"></span>
+<img src="group10_2020_project_files/figure-html/Residuals-model-victim-1.png" alt="Dstribution of the residuals" width="70%" />
 <p class="caption">
-(#fig:Residuals-model_victim)Dstribution of the residuals
+Figure 3.5: Dstribution of the residuals
 </p>
 </div>
-<p>The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation, as we notice in the figure <a href="modeling.html#fig:Prediction-model-victim">3.5</a></p>
+<p>The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation, as we notice in the figure <a href="modeling.html#fig:Prediction-model-victim">3.6</a></p>
 <div class="figure" style="text-align: center"><span id="fig:Prediction-model-victim"></span>
 <img src="group10_2020_project_files/figure-html/Prediction-model-victim-1.png" alt="Prediction victim model" width="70%" />
 <p class="caption">
-Figure 3.5: Prediction victim model
+Figure 3.6: Prediction victim model
 </p>
 </div>
-<p>Like the model with arrested, we made an error making the assumption that are data follow a normal distribution, but it was not the case as we note obersving the distribution of the data in the figure <a href="#fig:Residuals-model-victim"><strong>??</strong></a>. Therefore, now we assume that our data follow a poisson distribution.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">model_victim_poisson =<span class="st"> </span><span class="kw">glm</span>(Victim <span class="op">~</span><span class="st"> `</span><span class="dt">Victim Age</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Victim Gender</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">Victim Race</span><span class="st">`</span> ,<span class="dt">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="dt">data=</span> Victim)</a></code></pre></div>
-<p>Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table @ref(tab:Table-estimate-victim_poisson). All the variables are significant as in the previsous table with a normal distribution <a href="modeling.html#tab:Table-estimate-victim">3.5</a>. But here, all the variables are significant with 1%, which it was not the case previously. Here the varaibles male is negatively signicant, and before it was positively correlated.</p>
-<p>It is more correct to use this following table @ref(tab:Table-estimate-victim_poisson).</p>
+<p>Like the model with arrested, we made an error making the assumption that are data follow a normal distribution, but it was not the case as we note obersving the distribution of the data in the figure <a href="modeling.html#fig:Residuals-model-victim">3.5</a>. Therefore, now we assume that our data follow a poisson distribution.</p>
+<p>Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table <a href="#tab:Table-estimate-victim-poisson"><strong>??</strong></a>. All the variables are significant as in the previsous table with a normal distribution <a href="modeling.html#tab:Table-estimate-victim">3.5</a>. But here, all the variables are significant with 1%, which it was not the case previously. Here the varaibles male is negatively signicant, and before it was positively correlated.</p>
+<p>It is more correct to use this following table <a href="#tab:Table-estimate-victim-poisson"><strong>??</strong></a>.</p>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>
 (#tab:Table-estimate-victim_poisson)Information about the estimate of the model
@@ -1323,18 +1310,18 @@ p.value
 </tr>
 </tbody>
 </table>
-<p>Plotting our residuals with a poisson distribution we note that we are pretty good,@ref(tab:Residuals-victim_poisson).</p>
-<div class="figure" style="text-align: center">
-<img src="group10_2020_project_files/figure-html/Residuals-victim_poisson-1.png" alt="Residuals of the models about the model victim" width="70%" />
+<p>Plotting our residuals with a poisson distribution we note that we are pretty good,<a href="#tab:Residuals-victim-poisson"><strong>??</strong></a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:Residuals-victim-poisson"></span>
+<img src="group10_2020_project_files/figure-html/Residuals-victim-poisson-1.png" alt="Residuals of the models about the model victim" width="70%" />
 <p class="caption">
-(#fig:Residuals-victim_poisson)Residuals of the models about the model victim
+Figure 3.7: Residuals of the models about the model victim
 </p>
 </div>
 <p>Removing the extreme value, again we note that with a poisson distribution, it is more correct,</p>
 <div class="figure" style="text-align: center"><span id="fig:Residuals-2-poisson-victim"></span>
 <img src="group10_2020_project_files/figure-html/Residuals-2-poisson-victim-1.png" alt="Residuals of the models about the arrested" width="70%" />
 <p class="caption">
-Figure 3.6: Residuals of the models about the arrested
+Figure 3.8: Residuals of the models about the arrested
 </p>
 </div>
 </div>
@@ -1346,11 +1333,11 @@ Figure 3.6: Residuals of the models about the arrested
 <p>If not, then our data base does not allow us to demonstrate any bias in the judicial system of a county if ad only if our samples are respresentative of our population. If this is not the case, then further investigation have be done in order to minimize the sampling bias we face here.</p>
 <p>So, we filtered again the data to have only black and white arrestees and mutate all the character variables as factors, so as to be handled by the functions, which require factors only. We proceed to a sammpling for having a training and a test sets with which we would train and verify the analytical process.</p>
 <p>This one is a Random Forest: Through a multiplicity of random samples we did before: our model has to predict the race pf arrestees with respect of the characteristics of the observations included in the samples. By computing an average of their results, we determine the model’s ability to predict.</p>
-<p>In the figure <a href="modeling.html#fig:Prediction-model-race">3.7</a>, we plot the cofusion matrix.</p>
+<p>In the figure <a href="modeling.html#fig:Prediction-model-race">3.9</a>, we plot the cofusion matrix.</p>
 <div class="figure" style="text-align: center"><span id="fig:Prediction-model-race"></span>
 <img src="group10_2020_project_files/figure-html/Prediction-model-race-1.png" alt="Race prediction model" width="70%" />
 <p class="caption">
-Figure 3.7: Race prediction model
+Figure 3.9: Race prediction model
 </p>
 </div>
 <p>We have to look at the sensitivity (ability to predict true positive, here black people) and specificity (ability to predict true negative, here whites), as well the accuracy: if our model well predicts in average the outcome. presented in the table <a href="modeling.html#tab:Table-Arrestation-2">3.4</a>. Here, the accuracy is a little bit better than hazard (0.6611 against 0.5, considered here as hazard since we have only two outcomes). The sensitivity (.7560) is quite high but specificity is low (.5578). Our model predicts well black but have more difficulty to predict white, which was the issue we faced with our other two models: the white race level is non-significant.</p>

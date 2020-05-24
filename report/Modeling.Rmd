@@ -584,8 +584,7 @@ This one is a Random Forest: Through a multiplicity of random samples we did bef
 In the figure \@ref(fig:Prediction-model-race), we plot the cofusion matrix.
 
 
-
-```{r Prediction-model-race, fig.cap="Race prediction model", warning=FALSE, message=FALSE, echo = FALSE}
+```{r Prediction-model-race, fig.cap="Race prediction model", fig.asp = 0.7, fig.width = 7, fig.align = 'center', warning=FALSE, message=FALSE, echo = FALSE}
 
 PAM <- Police_arrest_made %>%
   clean_names() %>%
