@@ -1,5 +1,16 @@
 
 # Conclusion
 
-Final Analysis: What did you learn about the data? How did you answer the questions? How can you justify your answers?
+Our project was to determine if a bias could be observable and if some characteristics were significantly attributable to white and black races. 
 
+To do so and after a comprehensive exploratory analysis on victims, police officers and arrestees, we created two models, a gaussian and a Poisson, to model the actual proportions of arrestees, and then a Random forest to classify them by their characteristics.
+
+We used a biased sample and we knew that it is questionable to proceed with a non-representative sampling to draw conclusions needing careful handling. The 50-50 proportion of black and white among arrestees cannot represent the Chapel Hill’s population where black people are up to max. 12.5%.
+
+We start easy with a simple gaussian model and refined it with a Poisson family, what better fits the data by reducing drast. Our linear models were somehow satisfying, mostly the Poisson one: coefficients were significant except the Arrestee race. This is an interesting insight: in fact, a model using a biased 50-50 sample making no difference between white and black people in its outcome precisely points out a problem.
+
+Our regression tree is good at predicting black people (True Positive), a bit less in white arrestees (True Negative). In addition, it did errors of type I and II in non negligible proportion. (false black / white arrestee). We should have either weighting the outcomes to cope with this mix up, or randomly resample our dataset to obtain a representative subset and to train our classification model on it.
+
+Our project gives some insights from the start on a potential racial bias: the dataset is itself not representative. We must as well remind that Chapel Hill is a State of South and might be impacted by its history, and using only one dataset does not allow us to draw universal conclusion, as we said in the introduction.
+
+However, we dare say that a racial bias might be observable in the judicial system of Chapell Hill between 2015 and 2019, but must be further investigated to scope out the correlation between the police officers’ profiles and the arrestees typical profiles, and the characteristics imputable to the races among arrestees and police officers.

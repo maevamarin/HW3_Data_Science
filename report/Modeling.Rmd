@@ -1,7 +1,9 @@
 
 # Modeling
 
-## Modeling - Arrested
+Once the exploration analysis done, we pursue with the modelization of the profile of our arrestees and victims. As a gentle reminder, the aim of our project is to build the typical profil drawn by the database in order to know whether or not race has a strong influence and thus, to consider if there is objectively a partial legal force.
+
+## Modeling - Arrestees
 
 ### With a normal distribution
 
@@ -15,13 +17,13 @@ knitr::opts_chunk$set(echo = TRUE)
 Arrestation= Police_arrest_made %>%
   group_by(`Arrestee's Age`,`Arrestee's Race`, `Arrestee's Gender`, `Drugs or Alcohol Present` ) %>%
   summarize(arrestation=n())
-augment_model<- broom::augment(model)
+
 
 ```
 
-Once the exploration analysis done, we pursue with the modelization of the profile of our arrestees and victims. As a gentle reminder, the aim of our project is to build the typical profil drawn by the database in order to know whether or not race has a strong influence and thus, to consider if there is objectively a partial legal force.
 
-We would first build the model for arrestee’s profile. In order to do so, we use the General Linear Model to shape our dependent variable, the number of arrestation, explain by our independent variables: the age, race and gender of the arrestee and if it was under the influence of drugs and alcool. We use dummy variables to better understand the impact of the outcomes.
+We would first build the model for arrestee’s profile. In order to do so, we use a gaussian General Linear Model to shape our dependent variable, the number of arrestation, explain by our independent variables: the age, race and gender of the arrestee and if it was under the influence of drugs and alcool. We use dummy variables to better understand the impact of the outcomes.
+
 ```{r model_arrestation_normal}
 model <- glm(
   arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present`,
@@ -30,7 +32,7 @@ model <- glm(
 
 ```
 
-We observe that ceteris paribus, approximatively 49 arrestations (intercept) would be done in our reference case as we could observe in the table \@ref(tab:Table-estimate). The reference case is the average of possibility between all combinations possible with our variable references and here, since we have dummy variables, it encompasses  the lowest probable profile of arrestees: black women. This reference level gives the irreductible number of arrestations the Chapel Hill Police District would operate for this category per XXX. 
+We observe that ceteris paribus, approximatively 49 arrestations (intercept) would be done in our reference case as we could observe in the table \@ref(tab:Table-estimate). The reference case is the average of possibility between all combinations possible with our variable references and here, since we have dummy variables, it encompasses  the lowest probable profile of arrestees: black women. This reference level gives the irreductible number of arrestations the Chapel Hill Police District would operate for this category on this subset of pupulation over 9 years. 
 
 The arrestee Age has a negative effect: it depicts that higher is the age of the arrestee lower is the probability to encounter this person, since a high age would decrease, ceteris paribus, the number of arrestations in fine by the exact value of the age of the arrestee. This coefficient is significant.
 
@@ -57,7 +59,7 @@ broom::tidy(model) %>%
 
 Those informations brought by the model are themselves accurate? To know it, we have to analyse the goodness of fit of the model and explore in more details the distribution of the errors and also the distribution or our data.
 
-In Figure \@ref(fig:Residuals), we observe exterme value, which have a lot of weight concerning the distribution of our errors, therefore we have chosen to remove these extreme values in order to better visualize the distribution of our errors.
+In Figure \@ref(fig:Residuals), we observe exterme value, which have a lot of weight concerning the distribution of our errors.
 
 
 ```{r Residuals, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
@@ -93,16 +95,15 @@ ggplot()+
 
 ```
 
-With the following table \@ref(tab:Table-Arrestation-2), we have a look on those extreme value and about the more current profile of the arrested.
-The  standard profile is a young white male, with drogs or alcohol present.
-
+With the following table \@ref(tab:Table-Arrestation-2), we have a look on the extreme values of the above figures. 
+The tricky exercise here is to understand that the extreme values are not: they are the frequency of the profiles of  people arrested: the white male with drugs and alcohol is y very common profile in the database, wherease the other combinations, representing one single person, exceed 180 different single profiles.
 ```{r Table-Arrestation, warning=FALSE, message=FALSE, echo = FALSE}
 
 Arrestation %>%
   arrange( desc(arrestation)) %>%
   head(7) %>%
    kable( 
-  caption = "Information about the estimate of the model", digits = 2
+  caption = "Standard profile depending of the frequency of arrestations ", digits = 2
   ) %>% 
   kable_styling(
   bootstrap_options = "striped"
@@ -111,25 +112,6 @@ Arrestation %>%
 ```
  
  
-After removing these extreme values, we observe in the figure \@ref(fig:Residuals-2) that the errors are normally distributed with 0 as mean (because we predicts only positive value, the bell curve is non existant on the left-hand side of the y-axis, but can be expected). It means that the values of errors are close to zero, leading to very low RMSE and MAE. This is a very good point. In addition, the curve of error values verifies as well the assumption of normal distribution. Now, are they randomly distributed?
-
-```{r Residuals-2, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
-
-p12<-augment_model %>%
-  filter(arrestation<100) %>%
-  ggplot(aes(x=arrestation,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Arrestation", 
-    y = "Residuals",
-    title = "Bad prediction when the number\nof arrestation increase",
-    subtitle = "Normal distribution")
-p12
-
-```
-
-
 Concerning the predictions of our response variable "Arrestation", we can observe in the figure \@ref(fig:Prediction-arrestation), that our predictions and our observed values overlap, which is good news.
 On the other hand, our model has difficulty in predicting extreme values, especially for the white race.
 
@@ -148,13 +130,13 @@ augment_model %>% ggplot() +
 
 ```
 
-But unfortunately we are not satisfied that our model. Because we noticed that the residues are very high and that our data do not follow a normal dsitribution. Therefore, now we are make the same model, but assuming a poisson distribution.
+But unfortunately we are not totally satisfied with our model: the residues are very high and our data does not follow a normal dsitribution. We can improve our model by changing the distribution. Therefore, now we do the same model and use a poisson distribution.
 
 ### With a poisson distribution 
 
-Normal distribution describes continuous data which have a symmetric distribution, with a characteristic 'bell' shape, which is not the case in our data, as we observed in the figure \@ref(fig:Residuals). Therefore we made a mistake, therefore in the following part, we are going to use the same model but with a poisson distribution.
+Normal distribution describes continuous data which have a symmetric distribution, with a characteristic 'bell' shape, which is not the case in our data, as we observed in the figure \@ref(fig:Residuals). Therefore, to analyze the leeway of improvement of our model, we use the Poisson distribution and expect lower residuals and a better overall fit.
 
-```{r model_arrestation_poisson}
+```{r model-arrestation-poisson}
 
 model_poisson <- glm(
   arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arrestee's Gender` + `Drugs or Alcohol Present`,
@@ -164,13 +146,10 @@ model_poisson <- glm(
 ```
 
 
-We note that all our estimate are significant with 1% except for the variable race as we observe in the table  \@ref(tab:Table-estimate_poisson). 
-
-We note that with a normal distribution (\@ref(tab:Table-estimate)) the sginifcant variables were the same.
-The change is for the intercept, which is slightly smaller than previously, 3.84 instead of 49.24. The effect of the estimate are the same. Ans as previsouly, variable race isn't significant. 
+All our estimates are significant with 0.1% except for the variable race as we observe in the table  \@ref(tab:Table-estimate-poisson). By comparison with the normal model (\@ref(tab:Table-estimate)) the variable sginificance are the same. Only the intercept is modified, which is smaller than previously, 3.84 instead of 49.24. The effect of the estimate remains similar and as previously, variable race isn't significant. 
 
 
-```{r Table-estimate_poisson,warning=FALSE, message=FALSE, echo = FALSE}
+```{r Table-estimate-poisson,warning=FALSE, message=FALSE, echo = FALSE}
 
 broom::tidy(model_poisson) %>% 
   mutate(p.value = paste(round(p.value, 4), pval_star(p.value))) %>%
@@ -184,9 +163,11 @@ broom::tidy(model_poisson) %>%
 
 ```
 
-In the fifure, \@ref(tab:Table-estimate_poisson) we copare the distribution of the error, one with a poisson distribution and the other with a normal distribution. We note that the poisson distribution is cleraly more adapted for our data. And we we have a zoom of this new residuals distribution, we note our residuals find themselves in an interval of [-10,10], which is pretty good.
+In the figure, \@ref(tab:Table-estimate-poisson) we compare the distribution of the errors between the gaussian and the Poisson models. The first tables depicts the distribution of the residuals at the same scale (until -200). The gaussian residuals are greater than Poisson ones: the latter distribution better fits our dataset.
 
-```{r Residuals_poisson, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
+In a second time, we zoom in on the Poisson residuals to observe their distribution into an tiny interval of [-10, 10], which is pretty good.
+
+```{r Residuals-poisson, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
 
 #Bad prediction when the number of arrestation  increase
 augment_model_poisson<- broom::augment(model_poisson)
@@ -220,42 +201,6 @@ p17<- augment_model_poisson %>%
 
 ```
 
-Again, after removing the extrme value, we compare the residuals between the 2 distributions, as we can observe in the \@ref(tab:Residuals-2_poisson). And we come to the same conclusion as before. The residuals as less important for the poisson distribution. The residuals are clearly centered around 0 
-
-```{r Residuals-2_poisson, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
-
-p9<- augment_model_poisson %>%
-  filter(arrestation<100) %>%
-  ggplot(aes(x=arrestation,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Arrestation", 
-    y = "Residuals",
-    title = "More centered around 0",
-    subtitle = "Poisson distribution ")+
-  scale_y_continuous(limits  = c(-25,50))
-
-p18<- augment_model_poisson %>%
-  filter(arrestation<100) %>%
-  ggplot(aes(x=arrestation,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Arrestation", 
-    y = "Residuals",
-    title = "Zoom on the residuals disribution",
-    subtitle = "Poisson distribution ")
-
-
-
-
-((p9 + p12)/p18) +
-  plot_annotation(
-    title = "Residual distribution")
-
-```
-
 
 
 In the next model, we add the type of arrest and whether the criminal is armed or not, in order to explain our response variable "Arrest". And this time, we use directly a poisson distribution.
@@ -279,13 +224,16 @@ model_Arrestation_2 = glm(arrestation ~ `Arrestee's Age`+`Arrestee's Race`+`Arre
 ```
 
 
-Compare to our previous model with less variables, the significance of the estimate does not change. But we note that the type of arrestation "taken into custody" and being "unarmed" are signidicant with 5%, as we observe in the table \@ref(tab:Table-Arrestation-2).
+Compare to our previous model with less variables, the significance of the estimates does not change. 
+
+The type of arrestations "Taken into custody" and being "Unarmed" are significant with 0.1%, as we observe in the table \@ref(tab:Table-Arrestation-2).
 
 
 ```{r Table-Estimate, warning=FALSE, message=FALSE, echo = FALSE}
 
 broom::tidy(model_Arrestation_2) %>% 
   mutate(p.value = paste(round(p.value, 4), pval_star(p.value))) %>%
+  filter(p.value<0.001) %>%
   select(-statistic) %>%
   kable( 
   caption = "Information about the estimate of the model", digits = 2
@@ -296,7 +244,7 @@ broom::tidy(model_Arrestation_2) %>%
 ```
 
 
-In the table \@ref(tab:Table-Arrestation-2), we observe the seven most important variables associated with explaining a typical arrest
+The table \@ref(tab:Table-Arrestation-2) gives the most frequent profiles contained in our databases of arrested persons, including now type of arrests and drug or alcohol impaired. Again, the profils of young white males are the most frequent, and they are systematically not armed but impaired.
 
 ```{r Table-Arrestation-2, warning=FALSE, message=FALSE, echo = FALSE}
 
@@ -320,7 +268,8 @@ Arrestation_2 %>%
 
 ### With a normal distribution
 
-The second model aims to model the profil of victims. Again, we use a General Linear model to estimate the number of victims by population characteristics per XXXX, by taking into account the age, race and gender of the victims.
+The second modelization aims to model the profil of victims. Again, we use the simplest model possible: the gaussian General Linear model, to estimate the number of victims by population characteristics over 9 years. The variable taking into account the age, race and gender of the victims.
+We reproduce the distinguo gaussian-Poisson as we did for arrestees' profiling in order to demonstrate again the better fit of the data by the use of a Poisson.
 
 ```{r warning=FALSE, message=FALSE, echo = FALSE}
 
@@ -329,6 +278,7 @@ Victim <- Incident_reports %>%
   summarize(Victim=n())
 
 ```
+Like for the model of the arrestee profile, we improve our modelization by running after a Poisson model below:
 
 ```{r model-victim}
 
@@ -336,11 +286,13 @@ model_victim = glm(Victim ~ `Victim Age` + `Victim Gender` + `Victim Race` , dat
 
 ```
 
-Again, we have a model with dummy variables, so we have to first consider our reference level, which is black women again, as we observe in the table \@ref(tab:Table-estimate-victim). The irreductible number of victime for  those population, neglecting the age is approximatively 201 cases (200.56). This number is significant.
+Again, we have a model with dummy variables (automatically created by the use of character variables, the software estimate the impact of the non-reference levels), so we have to first consider our reference level, which is black women, as we observe in the table \@ref(tab:Table-estimate-victim). The number of victims for those population, neglecting the age is approximatively 201 cases (200.56). This number is significant.
 
-Considering now our variables: The age is negatively correlated with the number of victim by decreasing it with an effect of -2.70! We expect thus a larger number of young victims, since this coefficient is reliable since significant. Being white is risk factor: more victims are white and this is represented by the strong positive effect of the dummy variable, significant as well, called `Victim RAce`White: +86.79 so additional 87 numbers of victims by comparison to our reference level.
+Considering now our variables: The age is negatively correlated with the number of victims by decreasing it with an effect of -2.70! We expect thus a larger number of young victims, since this coefficient is reliable since significant. Being white is a risk factor: more victims are white and this is represented by the strong positive effect of the dummy variable, significant as well, called `Victim Race'White: +86.79 so additional 87 number of victims by comparison to our reference level.
 
-Here, we have a strong racial effect: black people are less subject to misuse, aggressions, etc. than white people. Our database cannot help any supporting justification with demographics, because it does not contain any data on wealth, privileges, other objective or subjective factors causing people to aggress them.
+Here, we have a strong racial effect: black people report less in our data set: they seem to be less subject to misuse, aggressions, and other cases of abi. than white people. But exogeneous causes can cause it: white persons are maybe wealthier or adopt a behavioral attracting thiefs, perhaps black people are reluctant to fill a complaint in police office because of some pression, lack of interest or expecting disparagement, for exmaple.
+
+Our database cannot help any supporting justification with those assumptions, because it does not contain any data to verify them.
 
 Finally, the interesting point remains that gender is not significant, in spite of the negative effect (in the model, but a benefit in reality) to be a male. Being a male decreases, ceteris paribus, the number of cases by approximatively 13 victims (13.42).
 
@@ -396,7 +348,7 @@ ggplot()+
 
 ```
 
-In order to well undersant what is inside the extreme value as we obsevre  the figure \@ref(fig:Residuals-victim), we present the seven typical profil of a victim , in the table \@ref(tab:Table_distribution-Victim), we notice that the victim is all the time a young white person.
+In order to well undersant what is inside the extreme value as we obsevre  the figure \@ref(fig:Residuals-victim), we present the seven typical profil of a victim , in the table \@ref(tab:Table-distribution-Victim), we notice that the victim is all the time a young white person.
 
 
 ```{r Table-distribution-Victim, fig.cap="Dstribution of the residuals", warning=FALSE, message=FALSE, echo = FALSE}
@@ -410,43 +362,6 @@ Victim %>%
   kable_styling(
   bootstrap_options = "striped"
   )
-
-```
-
-After removing these extreme values,the error variation is oscillating around zero, \@ref(fig:Residuals-model-victim), following no identifiable pattern: we might say they are randomly distributed. Both initial assumptions are verifies, our model seems to be well-built!! 
-
-
-The box plot of the model’s goodness of fit points out that our model better predict black than white people: the dummy variable struggles to well fit the observation.
-
-
-```{r Residuals-model-victim, fig.cap="Dstribution of the residuals", warning=FALSE, message=FALSE, echo = FALSE}
-p7<- augment_model_victim %>% 
-filter(Victim<200) %>%
-  ggplot(aes(x=Victim,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Number of victims", 
-    y = "Residuals",
-    title = "Bad prediction when the number \nof victim increases",
-    subtitle = "Normal distribution ")
-
-
-
-p8 <- Victim %>% 
-  filter(Victim<200) %>%
-ggplot()+
-  geom_histogram(aes(Victim))  +
-  labs(
-    title = "Dstribution around 0",
-    subtitle = "Victim distribution",
-    x= "Number of victim",
-    y= "Number of standard profile")
-
-
-(p7 + p8) +
-  plot_annotation(
-    title = "Without the extreme value")
 
 ```
 
@@ -481,7 +396,7 @@ It is more correct to use this following  table \@ref(tab:Table-estimate-victim-
 
 
 
-```{r Table-estimate-victim_poisson,warning=FALSE, message=FALSE, echo = FALSE}
+```{r Table-estimate-victim-poisson,warning=FALSE, message=FALSE, echo = FALSE}
 augment_model_victim_poisson<- broom::augment(model_victim_poisson)
 
 
@@ -534,42 +449,8 @@ p15 <-augment_model_victim_poisson %>%
 
 ```
 
-Removing the extreme value, again we note that with a poisson distribution, it is more correct, 
 
-```{r Residuals-2-poisson-victim, fig.cap="Residuals of the models about the arrested", warning=FALSE, message=FALSE, echo = FALSE}
-
-p14<- augment_model_victim_poisson %>% 
-filter(Victim<200) %>%
-  ggplot(aes(x=Victim,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Number of victims", 
-    y = "Residuals",
-    title = "Bad prediction when the number \nof victim increases",
-    subtitle = "Poisson distribution ") +
-  scale_y_continuous(limits = c(-200,10))
-
-p16<- augment_model_victim_poisson %>% 
-filter(Victim<200) %>%
-  ggplot(aes(x=Victim,y=.resid)) + 
-  geom_hline(yintercept = 0, colour = "bisque3", size= 1) + 
-  geom_line() + 
-  labs(
-    x = "Number of victims", 
-    y = "Residuals",
-    title = "Zoom on the residuals distribution",
-    subtitle = "Poisson distribution ")
-
-
-((p14 + p7)/p16) +
-  plot_annotation(
-    title = "Residual distribution")
-
-```
-
-
-## Prediction
+## Classifying
 
 Finally, because no variable concerning the arrestee's race was significant, we would now see with a machine learning process if the black box is able to well predict the skin color of the person arrested.
 
@@ -612,9 +493,12 @@ confusionMatrix<-confusionMatrix(data=pred.te, reference = arrest.te$arrestees_r
 fourfoldplot(confusionMatrix$table)
 ```
  
- 
-We have to look at the sensitivity (ability to predict true positive, here black people) and specificity (ability to predict true negative, here whites), as well the accuracy: if our model well predicts in average the outcome. presented in the table \@ref(tab:Table-Arrestation-2). Here, the accuracy is a little bit better than hazard (0.6611 against 0.5, considered here as hazard since we have only two outcomes). The sensitivity (.7560) is quite high but specificity is low (.5578). Our model predicts well black but have more difficulty to predict white, which was the issue we faced with our other two models: the white race level is non-significant.
- 
+We have to look at the sensitivity (ability to predict true positive, here black people) and specificity (ability to predict true negative, here whites), as well the accuracy: if our model well predicts in average the outcome, in the table  \@ref(tab:Table-Arrestation-2). Here, the accuracy is a little bit better than hazard (0.6611 against 0.5, considered here as hazard since we have only two outcomes). The sensitivity (.7560) is quite high but specificity is low (.5578). Our model predicts well black but have more difficulty to predict white, which was the issue we faced with our other two models: the white race level is non-significant.
+
+Of course, we are now working with a biased sample. The learner's struggles are explained to a certain extent by this bias. The improvements we could have done would have been to create a subset of our dataset by randomly selecting 10% of black arrestees and 90% of white arrestees to respect the real proportion of Chapel Hill's population.
+
+In this way, the learner would have work on less biased subset of observations and the results would have given us a better classification of arrestees per skin color.
+
  
 ```{r Table-Confision-matrix, fig.cap="Race prediction model", warning=FALSE, message=FALSE, echo = FALSE}
 
@@ -626,4 +510,7 @@ confusionMatrix$byClass %>%
   bootstrap_options = "striped"
   )
 ```
+
+
+
 

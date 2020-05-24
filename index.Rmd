@@ -1,5 +1,5 @@
 --- 
-title: "An attempt to find a judicial racial bias in arrestees"
+title: "Chapel Hill Police District: Is a racial biased  justice observable between 2010 and 2019?"
 author: "Eugénie Mathieu, Maeva Marin"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 site: bookdown::bookdown_site

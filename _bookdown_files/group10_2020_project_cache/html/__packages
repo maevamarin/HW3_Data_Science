@@ -20,10 +20,11 @@ knitr
 kableExtra
 bookdown
 rmarkdown
-expss
 randomForest
+janitor
 lattice
 caret
-janitor
+expss
 draw
 pltesim
+formattable
